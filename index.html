@@ -534,13 +534,13 @@ document.addEventListener('click', function (e) {
     // Titre puis boutons quand le soleil est levé (6 s) ; tout de suite si la vidéo ne peut pas se lancer
     function show() { if (shown) return; shown = true; box.classList.add('ready'); }
     v.addEventListener('error', show);
-    v.addEventListener('timeupdate', function () { if (v.currentTime > 4.5) show(); });
+    v.addEventListener('timeupdate', function () { if (v.currentTime > 4) show(); });
     if (reduce) {  // mouvement réduit : on affiche directement la dernière image
       v.addEventListener('loadedmetadata', function () { v.currentTime = v.duration - 0.05; });
       show();
     } else {
       var pr = v.play(); if (pr && pr.catch) pr.catch(show);
-      setTimeout(show, 7500);  // filet de sécurité si la vidéo charge mal
+      setTimeout(show, 7000);  // filet de sécurité si la vidéo charge mal
     }
     function end(lang) {
       if (done) return; done = true;
