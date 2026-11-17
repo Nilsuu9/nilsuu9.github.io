@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nils Louvel · Business Developer en alternance</title>
+<meta name="description" content="Nils Louvel cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. Vente terrain, emailing, salons, et des outils construits avec Claude.">
+<meta property="og:title" content="Nils Louvel · Business Developer en alternance">
+<meta property="og:description" content="Alternance 12 à 24 mois à Caen. Prospection, démos, suivi jusqu'au closing.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#070403">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Mise en page : fond flou fixe (taches de couleur + courbes de niveau), barre du haut en verre,
+   rail d'icônes à gauche (ordinateur), un grand panneau en verre qui contient toutes les sections,
+   et un dock en bas pour naviguer sur téléphone. */
+/* Thème unique : espace sombre. Les nébuleuses colorées passent derrière le verre pour lui donner de la profondeur. */
+:root {
+  /* Palette tirée de la vidéo d'intro : ciel noir chaud, rouille de Mars, sable, soleil blanc chaud */
+  --bg: #070403;
+  --blob-1: rgba(150, 62, 24, 0.42); --blob-2: rgba(95, 38, 14, 0.45); --blob-3: rgba(255, 214, 170, 0.1);
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.13);
+  --glass-shine: rgba(255, 255, 255, 0.2);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --fg: #F7EEE6; --muted: #B8A496; --line: rgba(255, 255, 255, 0.09);
+  --teal: #E2783F; --teal-ink: #FFFFFF; --orange: #F2C49B;
+  --dark-card: #0E0806; --dark-ink: #F7EEE6;
+  --cta: #FFF3E6; --cta-ink: #1A0C06;
+  --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --r-xl: 28px; --r-lg: 20px; --r-md: 14px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* Fond */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+.blob { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; opacity: 0.85; }
+.blob.b1 { background: radial-gradient(circle, var(--blob-1), transparent 62%); top: -25vmax; left: -15vmax; animation: drift1 26s ease-in-out infinite alternate; }
+.blob.b2 { background: radial-gradient(circle, var(--blob-2), transparent 62%); bottom: -30vmax; right: -20vmax; animation: drift2 32s ease-in-out infinite alternate; }
+.blob.b3 { background: radial-gradient(circle, var(--blob-3), transparent 60%); top: 30%; left: 35%; width: 50vmax; height: 50vmax; animation: drift1 38s ease-in-out infinite alternate-reverse; }
+@keyframes drift1 { to { transform: translate(12vw, 10vh) scale(1.1); } }
+@keyframes drift2 { to { transform: translate(-14vw, -8vh) scale(1.15); } }
+#stars { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); animation: float 60s ease-in-out infinite alternate; }
+@keyframes float { to { transform: translate(-30px, -24px); } }
+
+/* Intro : vidéo plein écran (recadrée pour remplir l'écran), titre et langues par-dessus */
+#intro { position: fixed; inset: 0; z-index: 100; background: var(--bg); transition: opacity .9s ease; }
+#intro video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%; }
+.intro-title { position: absolute; left: 0; right: 0; top: 22%; text-align: center; margin: 0; color: var(--fg);
+  opacity: 0; transform: translateY(14px); transition: opacity 1.2s ease, transform 1.2s cubic-bezier(.2,.8,.2,1); text-shadow: 0 2px 30px rgba(0,0,0,.6); }
+.intro-title span { display: block; font: 700 clamp(44px, 11vw, 140px)/1 var(--display); letter-spacing: -0.02em; }
+.intro-title small { display: block; margin-top: .6em; font: 600 clamp(14px, 2.6vw, 30px)/1 var(--display); letter-spacing: .55em; text-indent: .55em; text-transform: uppercase; color: var(--orange); }
+#intro.ready .intro-title { opacity: 1; transform: none; }
+#intro.out { opacity: 0; pointer-events: none; }
+#intro .lang { position: absolute; left: 50%; bottom: max(56px, calc(env(safe-area-inset-bottom) + 36px)); transform: translate(-50%, 12px);
+  display: flex; align-items: center; gap: 14px; opacity: 0; pointer-events: none; transition: opacity .8s ease, transform .8s ease; }
+#intro.ready .lang { transition-delay: .9s; }
+#intro.ready .lang { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+#intro .lang button { min-height: 50px; min-width: 128px; padding: 0 24px; border-radius: 999px; border: 1px solid var(--glass-border);
+  background: rgba(7, 4, 3, 0.5); color: var(--fg); font: 600 16px var(--display); cursor: pointer;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 var(--glass-shine); transition: background .2s, transform .2s; }
+#intro .lang button:hover { background: rgba(255, 255, 255, 0.14); transform: translateY(-2px); }
+#intro .lang span { color: var(--fg); text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
+
+/* Verre liquide : flou + reflet en haut + halo qui suit le pointeur */
+.glass { position: relative; background: var(--glass); border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(24px) saturate(170%); backdrop-filter: blur(24px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-shine), inset 0 -1px 0 rgba(255,255,255,0.08), var(--shadow); }
+.card { position: relative; background: var(--glass-strong); border: 1px solid var(--glass-border); border-radius: var(--r-lg);
+  box-shadow: inset 0 1px 0 var(--glass-shine), 0 6px 18px rgba(0,0,0,0.05); padding: 20px;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+.glass::before, .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, -30%), rgba(255,255,255,0.07), transparent 65%);
+  opacity: 0; transition: opacity .3s; }
+.glass:hover::before, .card:hover::before { opacity: 1; }
+.lift:hover { transform: translateY(-5px); box-shadow: inset 0 1px 0 var(--glass-shine), 0 16px 34px rgba(0,0,0,0.1); }
+
+/* Barre du haut */
+.topbar { position: fixed; z-index: 20; top: max(14px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  width: min(1240px, calc(100% - 24px)); border-radius: 999px; padding: 8px 8px 8px 10px;
+  display: flex; align-items: center; gap: 12px; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: var(--dark-card); color: var(--dark-ink); font: 700 14px var(--display); }
+.who { font: 600 15px var(--display); white-space: nowrap; }
+.who small { display: block; font: 400 12px var(--body); color: var(--muted); }
+.status { margin: 0 auto; display: flex; align-items: center; gap: 10px; padding: 7px 16px 7px 8px; border-radius: 999px;
+  background: var(--glass-strong); border: 1px solid var(--glass-border); font-size: 14px; color: var(--muted); }
+.orb { width: 22px; height: 22px; border-radius: 50%; flex: none;
+  background: conic-gradient(from 0deg, #E2783F, #FFF3E6, #F2C49B, #E2783F); animation: spin 6s linear infinite; box-shadow: 0 0 12px rgba(226,120,63,.6); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Rail d'icônes (ordinateur) */
+.rail { position: fixed; z-index: 15; left: max(18px, env(safe-area-inset-left)); top: 50%; transform: translateY(-50%);
+  box-sizing: border-box; width: 60px; overflow: hidden; border-radius: 30px; padding: 8px; display: none; flex-direction: column; gap: 6px;
+  transition: width .35s cubic-bezier(.2,.8,.2,1); }
+/* Au survol (ou au clavier), le rail s'élargit et laisse voir les noms, coupés jusque-là */
+.rail:hover, .rail:focus-within { width: 200px; }
+.rail a { display: flex; align-items: center; gap: 14px; height: 42px; padding-left: 12px; border-radius: 21px; color: var(--muted); text-decoration: none; transition: background .25s, color .25s; }
+.rail a:hover, .rail a.on { color: var(--fg); }
+.rail a.on { background: var(--glass-strong); box-shadow: inset 0 1px 0 var(--glass-shine), 0 4px 10px rgba(0,0,0,.08); }
+.rail a span { white-space: nowrap; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity .25s; }
+.rail:hover a span, .rail:focus-within a span { opacity: 1; }
+
+/* Grand panneau */
+.panel { width: min(1240px, calc(100% - 24px)); margin: calc(92px + env(safe-area-inset-top)) auto 120px; border-radius: 34px; padding: 34px; }
+section { scroll-margin-top: 100px; }
+section + section { margin-top: 56px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 20px; margin-bottom: 20px; }
+.sec-head h2 { font-size: clamp(24px, 3vw, 32px); }
+.sec-head p { color: var(--muted); max-width: 56ch; }
+.hello h1 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1.02; }
+.hello p { color: var(--muted); max-width: 62ch; margin-top: 12px; font-size: 17px; }
+.label { font-size: 13px; color: var(--muted); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+  background: rgba(226,120,63,0.14); color: var(--teal); white-space: nowrap; }
+.chip.orange { background: rgba(242,196,155,0.12); color: var(--orange); }
+.chip.grey { background: var(--line); color: var(--muted); }
+
+/* Rangée du haut */
+.top-grid { display: grid; gap: 18px; margin-top: 30px; grid-template-columns: minmax(0, 1fr); }
+.profile-card { display: flex; flex-direction: column; gap: 14px; }
+.profile-card .big { font: 700 clamp(26px, 3vw, 32px)/1.1 var(--display); }
+.btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { min-height: 46px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 16px;
+  font: 600 14.5px var(--display); text-decoration: none; cursor: pointer; border: 1px solid var(--glass-border); background: var(--glass-strong);
+  transition: transform .2s; }
+.btn:hover { transform: translateY(-2px); }
+.btn.dark { background: var(--cta); color: var(--cta-ink); border-color: transparent; box-shadow: 0 0 24px rgba(255, 243, 230, 0.15); }
+.minis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px; border-radius: var(--r-md); background: var(--line); }
+.minis div { min-width: 0; }
+.minis b { display: block; font: 700 17px var(--display); }
+.minis span { font-size: 12.5px; color: var(--muted); }
+
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.stat { display: flex; flex-direction: column; gap: 6px; padding: 18px; min-height: 150px; }
+.stat b { font: 700 clamp(28px, 3.4vw, 38px)/1 var(--display); font-variant-numeric: tabular-nums; margin-top: auto; }
+.stat p { font-size: 13.5px; color: var(--muted); }
+.stat.teal { background: linear-gradient(150deg, #C4582A, #6A2810); color: var(--teal-ink); border-color: rgba(255,255,255,.35); }
+.stat.teal p, .stat.teal .label { color: rgba(255,255,255,.82); }
+.stat.teal .chip { background: rgba(255,255,255,.2); color: #fff; }
+
+/* Profil de dénivelé */
+.chart-card { display: flex; flex-direction: column; gap: 10px; }
+.profile { position: relative; height: 200px; margin: 8px 6px 0; }
+.profile svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.profile .ridge { fill: none; stroke: var(--teal); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.profile .mass { fill: url(#massGrad); }
+.profile .grid line { stroke: var(--line); stroke-dasharray: 3 5; vector-effect: non-scaling-stroke; }
+.wp { position: absolute; transform: translate(-50%, -50%); width: 44px; height: 44px; display: grid; place-items: center;
+  background: none; border: 0; padding: 0; cursor: pointer; }
+.wp i { width: 16px; height: 16px; border-radius: 50%; background: var(--glass-strong); border: 3px solid var(--teal); transition: transform .2s, background .2s; }
+.wp.summit i { border-color: var(--orange); border-style: dashed; }
+.wp:hover i { transform: scale(1.25); }
+.wp[aria-pressed="true"] i { background: var(--teal); transform: scale(1.35); }
+.wp.summit[aria-pressed="true"] i { background: var(--orange); }
+.caption { min-height: 64px; padding: 12px 14px; border-radius: var(--r-md); background: var(--line); }
+.caption b { font-family: var(--display); }
+.caption span { display: block; font-size: 13.5px; color: var(--muted); }
+
+/* Tableau des expériences */
+.table { padding: 8px; }
+.thead, .row > summary { display: grid; grid-template-columns: 120px minmax(0, 1.5fr) minmax(0, 1.3fr) 100px 120px 28px; gap: 14px; align-items: center; padding: 12px 14px; }
+.thead { font-size: 12.5px; color: var(--muted); border-radius: var(--r-md); background: var(--line); }
+.row { border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row > summary { list-style: none; cursor: pointer; border-radius: var(--r-md); transition: background .2s; }
+.row > summary::-webkit-details-marker { display: none; }
+.row > summary:hover { background: var(--line); }
+.row .yr { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 14px; }
+.row .job { font-weight: 700; }
+.row .place { color: var(--muted); font-size: 14px; }
+.row .chev { transition: transform .25s; color: var(--muted); }
+.row[open] .chev { transform: rotate(90deg); }
+.row ul { margin: 0 0 14px; padding: 4px 14px 4px 152px; display: grid; gap: 6px; }
+.row li::marker { color: var(--teal); }
+.row.next .job { color: var(--orange); }
+
+/* Projets */
+.projects { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.proj { min-height: 230px; display: flex; flex-direction: column; gap: 10px; padding: 22px; }
+.proj h3 { font-size: 21px; }
+.proj p { font-size: 15px; color: var(--muted); }
+.proj .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 600 13px var(--display); letter-spacing: .06em; }
+.proj.dark { background: var(--dark-card); color: var(--dark-ink); border-color: rgba(255,255,255,.08); }
+.proj.dark p { color: rgba(244,241,236,.7); }
+.proj.dark .chip { background: rgba(255,255,255,.12); color: var(--dark-ink); }
+.proj.teal { background: linear-gradient(150deg, #C4582A, #6A2810); color: #fff; border-color: rgba(255,255,255,.3); }
+.proj.teal p { color: rgba(255,255,255,.82); }
+.proj.teal .chip { background: rgba(255,255,255,.2); color: #fff; }
+.dots { display: flex; }
+.dots i { width: 22px; height: 22px; border-radius: 50%; background: #E2783F; }
+.dots i + i { margin-left: -8px; background: #F3D9B1; opacity: .9; }
+
+/* Compétences */
+.skills { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.list { display: grid; gap: 14px; margin-top: 12px; }
+.item { display: flex; gap: 12px; align-items: flex-start; }
+.item .ico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: rgba(226,120,63,0.14); color: var(--teal); flex: none; }
+.item strong { display: block; font-family: var(--display); }
+.item span { font-size: 14px; color: var(--muted); }
+.sub { font: 600 12px var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; }
+.sub:first-of-type { margin-top: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips span { padding: 6px 13px; border-radius: 999px; font-size: 14px; background: var(--glass-strong); border: 1px solid var(--glass-border); }
+.chips span.hot { border-color: var(--teal); color: var(--teal); font-weight: 600; }
+.bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 8px; }
+.bar i { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--teal); transform-origin: left; }
+
+/* Contact */
+.contact { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+.cbox { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.cbox .val { font: 600 18px var(--display); overflow-wrap: anywhere; }
+.cbox .row-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+.cbox .btn { min-height: 40px; font-size: 14px; }
+.foot-note { margin-top: 28px; font-size: 13.5px; color: var(--muted); }
+
+/* Fenêtre de contact : centrée, le site passe derrière en flou ; un clic sur le flou la ferme */
+#contact-modal { position: fixed; inset: 0; margin: auto; height: fit-content; z-index: 100; border: 0; padding: 0; background: transparent; color: var(--fg); width: min(520px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow: visible; }
+#contact-modal::backdrop { background: rgba(7, 4, 3, 0.5); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+#contact-modal[open] .sheet { animation: pop .35s cubic-bezier(.2,.8,.2,1); }
+@keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.97); } }
+#contact-modal .sheet { border-radius: 28px; padding: 26px; display: grid; gap: 12px; background: rgba(22, 12, 8, 0.72); }
+#contact-modal h2 { font-size: 28px; padding-right: 40px; }
+#contact-modal .close { padding: 0; position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--glass-border);
+  background: var(--glass-strong); color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.mrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; padding: 14px; border-radius: 18px; background: var(--glass-strong); border: 1px solid var(--glass-border); }
+.mrow .ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(226,120,63,0.14); color: var(--teal); flex: none; }
+.mrow .txt { flex: 1; min-width: 150px; }
+.mrow .txt span { display: block; font-size: 13px; color: var(--muted); }
+.mrow .txt b { font: 600 16px var(--display); overflow-wrap: anywhere; }
+.mrow .acts { display: flex; gap: 8px; }
+.mrow .btn { min-height: 40px; font-size: 14px; padding: 0 14px; }
+
+
+/* Dock du bas : seulement sur téléphone et tablette ; sur grand écran le rail de gauche le remplace */
+.dock { position: fixed; z-index: 20; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+  border-radius: 999px; padding: 6px; display: flex; align-items: center; gap: 2px; max-width: calc(100% - 20px); }
+.dock a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 48px; min-height: 48px;
+  padding: 4px 8px; border-radius: 999px; text-decoration: none; color: var(--muted); font-size: 10.5px; font-weight: 500; transition: background .3s, color .3s; }
+.dock a.on { background: var(--glass-strong); color: var(--fg); box-shadow: inset 0 1px 0 var(--glass-shine), 0 4px 12px rgba(0,0,0,.1); }
+.dock .plus { min-width: 48px; background: var(--cta); color: var(--cta-ink); margin-left: 4px; }
+.dock .plus span { display: none; }
+
+/* Apparition au défilement */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0s); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (min-width: 720px) {
+  .top-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .chart-card { grid-column: 1 / -1; }
+  .dock a { flex-direction: row; gap: 8px; font-size: 14px; padding: 0 16px; }
+  .dock a .i { display: none; }
+  .dock .plus .i { display: block; }
+  .dock .plus { padding: 0; }
+}
+@media (min-width: 1100px) {
+  .top-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr); }
+  .chart-card { grid-column: auto; }
+  .rail { display: flex; }
+  .dock { display: none; }
+  .panel { margin-bottom: 40px; width: min(1240px, calc(100% - 140px)); margin-left: max(96px, calc((100% - 1240px) / 2)); }
+}
+@media (max-width: 860px) {
+  .thead { display: none; }
+  .row > summary { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "job st" "place place" "yr type"; gap: 4px 10px; }
+  .row .job { grid-area: job; } .row .place { grid-area: place; } .row .yr { grid-area: yr; }
+  .row .st { grid-area: st; justify-self: end; } .row .type { grid-area: type; justify-self: end; } .row .chev { display: none; }
+  .row ul { padding: 4px 14px 4px 32px; }
+}
+@media (max-width: 640px) {
+  .status { display: none; }
+  .topbar .who { margin-right: auto; }
+  .panel { padding: 20px 16px; border-radius: 26px; width: calc(100% - 16px); }
+  section + section { margin-top: 44px; }
+  .stat { min-height: 132px; padding: 14px; }
+  .btns { grid-template-columns: 1fr; }
+  .profile { height: 170px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .blob, .orb { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .card, .btn, .lift { transition: none; }
+  .lift:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><path d="m3 20 6-10 4 6 3-4 5 8z"/><path d="M14.5 6.5 16 4l1.5 2.5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z"/><path d="M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8z"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c2 2 10 2 12 0v-5"/></symbol>
+</svg>
+
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <canvas id="stars"></canvas>
+</div>
+
+<header class="topbar glass">
+  <div class="avatar" aria-hidden="true">NL</div>
+  <div class="who">Nils Louvel<small>Caen</small></div>
+  <div class="status"><span class="orb" aria-hidden="true"></span>Disponible dès maintenant pour une alternance à Caen</div>
+  <a class="btn dark top-cta" href="#contact" data-track="contact_cta" data-where="topbar">Me contacter</a>
+</header>
+
+<nav class="rail glass" aria-label="Sections">
+  <a href="#accueil"><svg class="i"><use href="#i-home"/></svg><span>Accueil</span></a>
+  <a href="#parcours"><svg class="i"><use href="#i-route"/></svg><span>Parcours</span></a>
+  <a href="#projets"><svg class="i"><use href="#i-spark"/></svg><span>Projets IA</span></a>
+  <a href="#competences"><svg class="i"><use href="#i-award"/></svg><span>Compétences</span></a>
+  <a href="#contact"><svg class="i"><use href="#i-mail"/></svg><span>Contact</span></a>
+</nav>
+
+<main class="panel glass">
+
+  <section id="accueil" class="hello">
+    <h1 class="reveal">Bonjour, je suis Nils</h1>
+    <p class="reveal" style="--d:.08s">Je cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. J'ai fait de la vente terrain, de l'emailing et des salons. Et je code mes propres outils avec Claude.</p>
+
+    <div class="top-grid">
+      <div class="card profile-card reveal" style="--d:.12s">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <span class="label">Poste visé</span><span class="chip">Disponible</span>
+        </div>
+        <div class="big">Business Developer SaaS BtoB</div>
+        <p class="label">Prospecter, faire des démos et suivre les opportunités jusqu'au closing. Rythme : 3 semaines en entreprise, 1 semaine à l'EM Normandie.</p>
+        <div class="btns">
+          <a class="btn dark" href="#contact" data-track="contact_cta" data-where="profil"><svg class="i"><use href="#i-mail"/></svg>Me contacter</a>
+          <a class="btn" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="profil"><svg class="i"><use href="#i-in"/></svg>LinkedIn</a>
+        </div>
+        <div class="minis">
+          <div><b>C2</b><span>Anglais</span></div>
+          <div><b>B1</b><span>Allemand</span></div>
+          <div><b>2 ans</b><span>en Autriche</span></div>
+        </div>
+      </div>
+
+      <div class="stats" id="chiffres">
+        <div class="card stat teal lift reveal" style="--d:.16s"><span class="chip">Larcher Services</span><b data-count="13000" data-space>13 000</b><p>clients touchés par 5 campagnes d'emailing</p></div>
+        <div class="card stat lift reveal" style="--d:.2s"><span class="chip">Foire de Caen</span><b data-count="12">12</b><p>rendez-vous clients pris en une semaine</p></div>
+        <div class="card stat lift reveal" style="--d:.24s"><span class="chip">Carrefour</span><b data-count="22" data-prefix="+" data-suffix=" %">+22 %</b><p>de ventes sur l'opération de Noël</p></div>
+        <div class="card stat lift reveal" style="--d:.28s"><span class="chip">Carrefour</span><b data-count="200" data-suffix="+">200+</b><p>références pilotées en rayon</p></div>
+      </div>
+
+      <div class="card chart-card reveal" style="--d:.2s">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <strong style="font-family:var(--display)">Mon parcours en dénivelé</strong><span class="chip orange">Prochaine étape</span>
+        </div>
+        <span class="label">Chaque poste m'a fait monter d'un cran. Touchez un point.</span>
+        <div class="profile" id="profile">
+          <svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+            <defs><linearGradient id="massGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2783F" stop-opacity=".35"/><stop offset="1" stop-color="#E2783F" stop-opacity="0"/></linearGradient></defs>
+            <g class="grid"><line x1="0" y1="75" x2="1000" y2="75"/><line x1="0" y1="150" x2="1000" y2="150"/><line x1="0" y1="225" x2="1000" y2="225"/></g>
+            <path class="mass" id="mass"/><path class="ridge" id="ridge"/>
+          </svg>
+        </div>
+        <div class="caption" aria-live="polite"><b id="cap-title"></b><span id="cap-where"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parcours">
+    <div class="sec-head reveal"><h2>Expériences</h2><p>Cliquez sur une ligne pour voir ce que j'ai fait.</p></div>
+    <div class="card table reveal" id="xp">
+      <div class="thead" aria-hidden="true"><span>Période</span><span>Poste</span><span>Lieu</span><span>Type</span><span>Statut</span><span></span></div>
+
+      <details class="row next" data-x="94" data-y="14" data-yr="Prochaine étape">
+        <summary><span class="yr">Dès maintenant</span><span class="job">Business Developer SaaS BtoB</span><span class="place">Caen, en parallèle de l'EM Normandie</span><span class="type chip grey">Alternance</span><span class="st chip orange">Recherché</span><svg class="i chev"><use href="#i-chev"/></svg></summary>
+        <ul><li>Prospecter de nouveaux clients BtoB sur LinkedIn, par emailing et au téléphone</li><li>Qualifier les besoins et organiser des démonstrations</li><li>Suivre les opportunités et participer au closing</li></ul>
+      </details>
+      <details class="row" data-x="72" data-y="34" data-yr="2025-26">
+        <summary><span class="yr">2025-2026</span><span class="job">Responsable de rayon · Carrefour</span><span class="place">Cormelles-le-Royal</span><span class="type chip grey">Alternance</span><span class="st chip">Terminé</span><svg class="i chev"><use href="#i-chev"/></svg></summary>
+        <ul><li>Un rayon de plus de 200 références et 3 k€ de chiffre d'affaires par semaine</li><li>Chaque semaine, analyse des ventes, de la marge et de la démarque</li><li>Implantations saisonnières, dont +22 % de ventes sur l'opération de Noël</li><li>4 renforts saisonniers encadrés</li></ul>
+      </details>
+      <details class="row" data-x="50" data-y="52" data-yr="2025">
+        <summary><span class="yr">Janv. 2025</span><span class="job">Vendeur conseil · Carrefour</span><span class="place">Soliers</span><span class="type chip grey">Stage</span><span class="st chip">Terminé</span><svg class="i chev"><use href="#i-chev"/></svg></summary>
+        <ul><li>Conseil client, mise en rayon et mise en place des offres promotionnelles</li></ul>
+      </details>
+      <details class="row" data-x="28" data-y="62" data-yr="2024">
+        <summary><span class="yr">Avr. et sept. 2024</span><span class="job">Commercial · Larcher Services</span><span class="place">Soliers</span><span class="type chip grey">Stage</span><span class="st chip">Terminé</span><svg class="i chev"><use href="#i-chev"/></svg></summary>
+        <ul><li>5 campagnes d'emailing envoyées à un fichier de 13 000 clients</li><li>Stand de la Foire de Caen préparé et animé : 12 rendez-vous pris en une semaine</li><li>Devis et études de faisabilité sur le terrain avec les commerciaux</li><li>Suivi des clients jusqu'au contrôle des travaux terminés</li></ul>
+      </details>
+      <details class="row" data-x="6" data-y="80" data-yr="2022-23">
+        <summary><span class="yr">2022-2023</span><span class="job">Saisons en camping</span><span class="place">Bernières, Courseulles, Dornbirn (Autriche)</span><span class="type chip grey">Saisonnier</span><span class="st chip">Terminé</span><svg class="i chev"><use href="#i-chev"/></svg></summary>
+        <ul><li>Surveillant de baignade, et responsable d'une équipe propreté de 8 personnes</li><li>En Autriche : accueil d'une clientèle internationale au bar, au restaurant et en caisse</li></ul>
+      </details>
+    </div>
+  </section>
+
+  <section id="projets">
+    <div class="sec-head reveal"><h2>Construit avec Claude</h2><p>J'utilise l'IA tous les jours pour automatiser ce qui peut l'être. Voici trois outils que j'ai faits moi-même.</p></div>
+    <div class="projects">
+      <article class="card proj dark lift reveal"><span class="chip" style="align-self:flex-start">Mini-CRM</span><h3>Suivi de candidatures</h3><p>Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.</p><div class="foot"><span>58 ENTREPRISES</span><span class="dots"><i></i><i></i></span></div></article>
+      <article class="card proj teal lift reveal" style="--d:.08s"><span class="chip" style="align-self:flex-start">Automatisation</span><h3>Relances à J+10</h3><p>Un tracker Excel avec des statuts en couleur et une date de relance calculée toute seule, comme une cadence de prospection.</p><div class="foot"><span>J+10</span><span class="dots"><i></i><i></i></span></div></article>
+      <article class="card proj lift reveal" style="--d:.16s"><span class="chip" style="align-self:flex-start">Vibe coding</span><h3>Appli de randonnée</h3><p>Pour préparer une rando : checklist du sac, import d'itinéraire GPX, profil de dénivelé et calcul de la nourriture.</p><div class="foot"><span>SAC &amp; DÉNIVELÉ</span><span class="dots"><i></i><i></i></span></div></article>
+    </div>
+  </section>
+
+  <section id="competences">
+    <div class="sec-head reveal"><h2>Compétences et formation</h2></div>
+    <div class="skills">
+      <div class="card reveal">
+        <strong style="font-family:var(--display)">Certifications IA</strong>
+        <div class="list">
+          <div class="item"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><div><strong>AI Fluency: Framework &amp; Foundations</strong><span>Anthropic Academy, 2026</span></div></div>
+          <div class="item"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><div><strong>Claude 101</strong><span>Anthropic Academy, 2026</span></div></div>
+          <div class="item"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><div><strong>AI Essentials</strong><span>Google</span></div></div>
+        </div>
+        <strong style="font-family:var(--display);display:block;margin-top:24px">Formation</strong>
+        <div class="list">
+          <div class="item"><span class="ico"><svg class="i"><use href="#i-cap"/></svg></span><div><strong>Bachelor Management International (Bac+3)</strong><span>EM Normandie, Caen, 2026-2027, en alternance</span></div></div>
+          <div class="item"><span class="ico"><svg class="i"><use href="#i-cap"/></svg></span><div><strong>BTS Management Commercial Opérationnel</strong><span>2023-2026, au CNED depuis l'Autriche puis à l'Ecofac Caen</span></div></div>
+          <div class="item"><span class="ico"><svg class="i"><use href="#i-cap"/></svg></span><div><strong>Mémoire en cours</strong><span>Usages numériques et souveraineté de l'information en entreprise</span></div></div>
+        </div>
+      </div>
+      <div class="card reveal" style="--d:.08s">
+        <p class="sub">Commercial</p>
+        <div class="chips"><span>Prospection</span><span>Emailing</span><span>Prise de rendez-vous</span><span>Devis</span><span>Négociation</span><span>Relation client</span><span>Analyse des ventes</span></div>
+        <p class="sub">Outils</p>
+        <div class="chips"><span class="hot">Claude</span><span>Excel avancé</span><span>Microsoft 365</span><span>Canva</span></div>
+        <p class="sub">Savoir-être</p>
+        <div class="chips"><span>Aisance relationnelle</span><span>Rigueur</span><span>Autonomie</span><span>Adaptabilité</span></div>
+        <p class="sub">Langues</p>
+        <div class="list" style="margin-top:4px">
+          <div><div style="display:flex;justify-content:space-between"><span>Anglais</span><span class="label">C2</span></div><div class="bar"><i style="--w:100%"></i></div></div>
+          <div><div style="display:flex;justify-content:space-between"><span>Allemand</span><span class="label">B1</span></div><div class="bar"><i style="--w:50%"></i></div></div>
+        </div>
+        <p class="sub">En dehors du travail</p>
+        <div class="chips"><span>Raid en montagne</span><span>Impression 3D</span><span>IA et nouvelles technos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-head reveal"><h2>On en parle ?</h2><p>Je suis disponible dès maintenant. Le plus rapide, c'est le téléphone ou un message LinkedIn.</p></div>
+    <div class="contact">
+      <div class="card cbox lift reveal"><span class="label">E-mail</span><span class="val" id="mail">nilsluvl@gmail.com</span>
+        <div class="row-btns"><a class="btn dark" href="mailto:nilsluvl@gmail.com" data-track="contact_clicked" data-where="email"><svg class="i"><use href="#i-mail"/></svg>Écrire</a><button class="btn" type="button" data-copy="mail">Copier</button></div></div>
+      <div class="card cbox lift reveal" style="--d:.06s"><span class="label">Téléphone</span><span class="val" id="tel">07 67 06 93 46</span>
+        <div class="row-btns"><a class="btn dark" href="tel:+33767069346" data-track="contact_clicked" data-where="telephone"><svg class="i"><use href="#i-phone"/></svg>Appeler</a><button class="btn" type="button" data-copy="tel">Copier</button></div></div>
+      <div class="card cbox lift reveal" style="--d:.12s"><span class="label">LinkedIn</span><span class="val">nils-louvel</span>
+        <div class="row-btns"><a class="btn dark" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="contact"><svg class="i"><use href="#i-in"/></svg>Voir le profil<svg class="i"><use href="#i-arrow"/></svg></a></div></div>
+    </div>
+    <p class="foot-note">Nils Louvel, Caen. Page construite avec Claude.<br>Vidéo d'intro : données de Mars NASA (MOLA, Viking), Jaanga CC BY 4.0.</p>
+  </section>
+</main>
+
+
+<nav class="dock glass" aria-label="Navigation rapide">
+  <a href="#accueil"><svg class="i"><use href="#i-home"/></svg>Accueil</a>
+  <a href="#parcours"><svg class="i"><use href="#i-route"/></svg>Parcours</a>
+  <a href="#projets"><svg class="i"><use href="#i-spark"/></svg>Projets</a>
+  <a href="#competences"><svg class="i"><use href="#i-award"/></svg>Compétences</a>
+  <a class="plus" href="#contact" aria-label="Contact" data-track="contact_cta" data-where="dock"><svg class="i"><use href="#i-plus"/></svg><span>Contact</span></a>
+</nav>
+
+<dialog id="contact-modal" aria-labelledby="modal-title">
+  <div class="sheet glass">
+    <button class="close" type="button" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button>
+    <h2 id="modal-title">On en parle ?</h2>
+    <p class="label">Choisissez le moyen qui vous arrange.</p>
+    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-phone"/></svg></span><div class="txt"><span>Téléphone</span><b>07 67 06 93 46</b></div>
+      <div class="acts"><a class="btn dark" href="tel:+33767069346" data-track="contact_clicked" data-where="modal_telephone">Appeler</a><button class="btn" type="button" data-copy="tel">Copier</button></div></div>
+    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-mail"/></svg></span><div class="txt"><span>E-mail</span><b>nilsluvl@gmail.com</b></div>
+      <div class="acts"><a class="btn dark" href="mailto:nilsluvl@gmail.com" data-track="contact_clicked" data-where="modal_email">Écrire</a><button class="btn" type="button" data-copy="mail">Copier</button></div></div>
+    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-in"/></svg></span><div class="txt"><span>LinkedIn</span><b>nils-louvel</b></div>
+      <div class="acts"><a class="btn dark" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="modal">Voir le profil</a></div></div>
+  </div>
+</dialog>
+
+<script>
+/* Statistiques (Umami, sans cookie). Coller ici l'identifiant du site créé sur cloud.umami.is.
+   Tant que c'est vide, rien n'est envoyé. */
+var UMAMI_ID = '';
+if (UMAMI_ID) {
+  var s = document.createElement('script');
+  s.defer = true; s.src = 'https://cloud.umami.is/script.js'; s.dataset.websiteId = UMAMI_ID;
+  document.head.appendChild(s);
+}
+function track(name, data) { try { if (window.umami) window.umami.track(name, data); } catch (e) {} }
+
+/* Boutons « Me contacter » : ouvrent la fenêtre de contact au lieu de descendre en bas de page.
+   Placé avant tout le reste et en phase de capture, pour marcher même si une autre partie du script plante. */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('[data-track="contact_cta"]'), m = document.getElementById('contact-modal');
+  if (!a || !m) return;
+  e.preventDefault();
+  try { m.showModal(); } catch (err) { m.setAttribute('open', ''); }
+}, true);
+
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+
+  /* Intro : vidéo du lever de soleil sur Mars, puis le titre et le choix de la langue.
+     Rejouée à chaque chargement (pratique si le recruteur s'est trompé de langue : il recharge). */
+  /* Si l'intro plante (par exemple page chargée dans un onglet caché, de largeur 0), on l'enlève et le site s'affiche quand même */
+  try { intro(); } catch (err) {
+    setTimeout(function () { var ib = document.getElementById('intro'); if (ib) ib.remove(); root.style.overflow = ''; startReveal(); }, 0);
+  }
+
+  function intro() {
+    var box = document.createElement('div'); box.id = 'intro';
+    box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Choisir la langue / Choose your language');
+    box.innerHTML = '<video src="intro-mars.mp4" muted playsinline preload="auto" aria-hidden="true"></video>' +
+      '<p class="intro-title"><span>Nils Louvel</span><small>Portfolio</small></p>' +
+      '<div class="lang"><button type="button" lang="en" data-lang="en">English</button><span aria-hidden="true">/</span><button type="button" lang="fr" data-lang="fr">Français</button></div>';
+    document.body.appendChild(box); root.style.overflow = 'hidden';
+    var v = box.querySelector('video'), done = false, shown = false;
+    // Titre puis boutons quand le soleil est levé (6 s) ; tout de suite si la vidéo ne peut pas se lancer
+    function show() { if (shown) return; shown = true; box.classList.add('ready'); }
+    v.addEventListener('error', show);
+    v.addEventListener('timeupdate', function () { if (v.currentTime > 6) show(); });
+    if (reduce) {  // mouvement réduit : on affiche directement la dernière image
+      v.addEventListener('loadedmetadata', function () { v.currentTime = v.duration - 0.05; });
+      show();
+    } else {
+      var pr = v.play(); if (pr && pr.catch) pr.catch(show);
+      setTimeout(show, 9000);  // filet de sécurité si la vidéo charge mal
+    }
+    function end(lang) {
+      if (done) return; done = true;
+      applyLang(lang);
+      track('language_chosen', { lang: lang });
+      box.classList.add('out'); root.style.overflow = '';
+      setTimeout(function () { v.pause(); box.remove(); }, 900);
+      startReveal();
+    }
+    box.querySelector('.lang').addEventListener('click', function (e) { var b = e.target.closest('[data-lang]'); if (b) end(b.dataset.lang); });
+  }
+
+  /* Ciel étoilé du fond, redessiné seulement si la largeur change (évite le scintillement sur mobile) */
+  var sc = document.getElementById('stars'), sg = sc.getContext('2d'), lastW = 0;
+  function drawStars() {
+    var W = sc.clientWidth, H = sc.clientHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+    if (W === lastW) return; lastW = W;
+    sc.width = W * dpr; sc.height = H * dpr; sg.setTransform(dpr, 0, 0, dpr, 0, 0);
+    for (var i = 0, n = Math.round(W * H / 2400); i < n; i++) {
+      var r = Math.random();
+      sg.fillStyle = 'rgba(255,244,232,' + (0.2 + r * 0.8) + ')';
+      sg.beginPath(); sg.arc(Math.random() * W, Math.random() * H, r < 0.94 ? r * 0.8 + 0.2 : 1.5, 0, 6.283); sg.fill();
+    }
+  }
+  drawStars();
+  var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(drawStars, 200); });
+
+  /* Reflet du verre qui suit le pointeur */
+  document.addEventListener('pointermove', function (e) {
+    var el = e.target.closest && e.target.closest('.card, .glass');
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+
+  /* Apparition au défilement + compteurs */
+  function fmt(el, n) {
+    var s = String(Math.round(n));
+    if ('space' in el.dataset) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, LANG === 'en' ? ',' : ' ');
+    return (el.dataset.prefix || '') + s + (el.dataset.suffix || '');
+  }
+  function count(el) {
+    var end = +el.dataset.count, t0 = performance.now();
+    (function step(now) { var p = Math.min(1, (now - t0) / 1200); el.textContent = fmt(el, end * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); })(t0);
+  }
+  // Lancé à la fermeture de l'intro, pour que les animations se jouent devant le visiteur
+  function startReveal() {
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target); en.target.classList.add('in');
+        en.target.querySelectorAll('[data-count]').forEach(count);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* Traduction anglaise : chaque texte français de la page est remplacé par sa version anglaise.
+     Pour ajouter un texte : mettre la phrase française exacte à gauche, l'anglais à droite. */
+  var LANG = 'fr';
+  var EN = {
+    'Disponible dès maintenant pour une alternance à Caen': 'Available now for a work-study contract in Caen, France',
+    'Me contacter': 'Contact me',
+    'Accueil': 'Home', 'Parcours': 'Career', 'Projets IA': 'AI projects', 'Projets': 'Projects', 'Compétences': 'Skills',
+    'Sections': 'Sections', 'Navigation rapide': 'Quick navigation',
+    'Bonjour, je suis Nils': "Hi, I'm Nils",
+    "Je cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. J'ai fait de la vente terrain, de l'emailing et des salons. Et je code mes propres outils avec Claude.":
+      "I'm looking for a 12 to 24 month work-study position in Caen as a B2B SaaS Business Developer. I've done field sales, email campaigns and trade fairs. I also build my own tools with Claude.",
+    'Poste visé': 'Target role', 'Disponible': 'Available',
+    'Business Developer SaaS BtoB': 'B2B SaaS Business Developer',
+    "Prospecter, faire des démos et suivre les opportunités jusqu'au closing. Rythme : 3 semaines en entreprise, 1 semaine à l'EM Normandie.":
+      'Prospecting, running demos and following deals through to closing. Schedule: 3 weeks at the company, 1 week at EM Normandie business school.',
+    'Anglais': 'English', 'Allemand': 'German', '2 ans': '2 years', 'en Autriche': 'in Austria',
+    "clients touchés par 5 campagnes d'emailing": 'customers reached by 5 email campaigns',
+    'Foire de Caen': 'Caen trade fair',
+    'rendez-vous clients pris en une semaine': 'client meetings booked in one week',
+    "de ventes sur l'opération de Noël": 'more sales on the Christmas campaign',
+    'références pilotées en rayon': 'products managed in my department',
+    'Mon parcours en dénivelé': 'My career as an elevation profile',
+    'Prochaine étape': 'Next step',
+    "Chaque poste m'a fait monter d'un cran. Touchez un point.": 'Each job took me one step higher. Tap a point.',
+    'Expériences': 'Experience',
+    "Cliquez sur une ligne pour voir ce que j'ai fait.": 'Click a row to see what I did.',
+    'Période': 'Period', 'Poste': 'Role', 'Lieu': 'Location', 'Statut': 'Status',
+    'Dès maintenant': 'Now',
+    "Caen, en parallèle de l'EM Normandie": 'Caen, alongside EM Normandie',
+    'Alternance': 'Work-study', 'Recherché': 'Wanted', 'Terminé': 'Completed', 'Stage': 'Internship', 'Saisonnier': 'Seasonal',
+    'Prospecter de nouveaux clients BtoB sur LinkedIn, par emailing et au téléphone': 'Prospect new B2B clients on LinkedIn, by email and by phone',
+    'Qualifier les besoins et organiser des démonstrations': 'Qualify needs and set up product demos',
+    'Suivre les opportunités et participer au closing': 'Follow up on opportunities and take part in closing',
+    'Responsable de rayon · Carrefour': 'Department manager · Carrefour',
+    "Un rayon de plus de 200 références et 3 k€ de chiffre d'affaires par semaine": 'A department of 200+ products with €3k in weekly revenue',
+    'Chaque semaine, analyse des ventes, de la marge et de la démarque': 'Weekly analysis of sales, margin and shrinkage',
+    "Implantations saisonnières, dont +22 % de ventes sur l'opération de Noël": 'Seasonal displays, including a 22% sales increase on the Christmas campaign',
+    '4 renforts saisonniers encadrés': 'Supervised 4 seasonal staff',
+    'Janv. 2025': 'Jan. 2025',
+    'Vendeur conseil · Carrefour': 'Sales advisor · Carrefour',
+    'Conseil client, mise en rayon et mise en place des offres promotionnelles': 'Customer advice, shelf stocking and setting up promotions',
+    'Avr. et sept. 2024': 'Apr. and Sept. 2024',
+    'Commercial · Larcher Services': 'Sales intern · Larcher Services',
+    "5 campagnes d'emailing envoyées à un fichier de 13 000 clients": 'Sent 5 email campaigns to a list of 13,000 customers',
+    'Stand de la Foire de Caen préparé et animé : 12 rendez-vous pris en une semaine': 'Prepared and ran the stand at the Caen trade fair: 12 meetings booked in one week',
+    'Devis et études de faisabilité sur le terrain avec les commerciaux': 'On-site quotes and feasibility studies with the sales team',
+    "Suivi des clients jusqu'au contrôle des travaux terminés": 'Followed clients through to the final inspection of the work',
+    'Saisons en camping': 'Summer jobs at campsites',
+    'Bernières, Courseulles, Dornbirn (Autriche)': 'Bernières, Courseulles, Dornbirn (Austria)',
+    "Surveillant de baignade, et responsable d'une équipe propreté de 8 personnes": 'Lifeguard, and lead of an 8-person cleaning team',
+    "En Autriche : accueil d'une clientèle internationale au bar, au restaurant et en caisse": 'In Austria: served international guests at the bar, the restaurant and the checkout',
+    'Construit avec Claude': 'Built with Claude',
+    "J'utilise l'IA tous les jours pour automatiser ce qui peut l'être. Voici trois outils que j'ai faits moi-même.":
+      'I use AI every day to automate whatever can be automated. Here are three tools I built myself.',
+    'Automatisation': 'Automation',
+    'Suivi de candidatures': 'Job application tracker',
+    'Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.': 'A site with a pipeline, a database of 58 companies in Caen and a daily scan of job offers.',
+    '58 ENTREPRISES': '58 COMPANIES',
+    'Relances à J+10': 'Follow-ups at D+10', 'J+10': 'D+10',
+    'Un tracker Excel avec des statuts en couleur et une date de relance calculée toute seule, comme une cadence de prospection.':
+      'An Excel tracker with color-coded statuses and a follow-up date that calculates itself, like a sales cadence.',
+    'Appli de randonnée': 'Hiking app',
+    "Pour préparer une rando : checklist du sac, import d'itinéraire GPX, profil de dénivelé et calcul de la nourriture.":
+      'For planning a hike: packing checklist, GPX route import, elevation profile and food planning.',
+    'SAC & DÉNIVELÉ': 'PACK & ELEVATION',
+    'Compétences et formation': 'Skills and education',
+    'Certifications IA': 'AI certifications', 'Formation': 'Education',
+    'Bachelor Management International (Bac+3)': 'Bachelor in International Management (3-year degree)',
+    'EM Normandie, Caen, 2026-2027, en alternance': 'EM Normandie, Caen, 2026-2027, work-study',
+    'BTS Management Commercial Opérationnel': 'BTS in Sales and Retail Management (2-year degree)',
+    "2023-2026, au CNED depuis l'Autriche puis à l'Ecofac Caen": '2023-2026, by distance learning (CNED) from Austria, then at Ecofac Caen',
+    'Mémoire en cours': 'Thesis in progress',
+    "Usages numériques et souveraineté de l'information en entreprise": 'Digital practices and information sovereignty in companies',
+    'Commercial': 'Sales', 'Prospection': 'Prospecting', 'Emailing': 'Email campaigns', 'Prise de rendez-vous': 'Booking meetings',
+    'Devis': 'Quotes', 'Négociation': 'Negotiation', 'Relation client': 'Customer relations', 'Analyse des ventes': 'Sales analysis',
+    'Outils': 'Tools', 'Excel avancé': 'Advanced Excel',
+    'Savoir-être': 'Soft skills', 'Aisance relationnelle': 'People skills', 'Rigueur': 'Attention to detail', 'Autonomie': 'Self-reliance', 'Adaptabilité': 'Adaptability',
+    'Langues': 'Languages', 'En dehors du travail': 'Outside work',
+    'Raid en montagne': 'Mountain trekking', 'Impression 3D': '3D printing', 'IA et nouvelles technos': 'AI and new tech',
+    'On en parle ?': 'Shall we talk?',
+    "Je suis disponible dès maintenant. Le plus rapide, c'est le téléphone ou un message LinkedIn.": "I'm available now. The fastest way to reach me is by phone or a LinkedIn message.",
+    'Choisissez le moyen qui vous arrange.': 'Pick whichever works best for you.', 'Fermer': 'Close',
+    'E-mail': 'Email', 'Écrire': 'Write', 'Copier': 'Copy', 'Copié': 'Copied', 'Sélectionné': 'Selected',
+    'Téléphone': 'Phone', 'Appeler': 'Call', 'Voir le profil': 'View profile',
+    '07 67 06 93 46': '+33 7 67 06 93 46',
+    'Nils Louvel, Caen. Page construite avec Claude.': 'Nils Louvel, Caen, France. Page built with Claude.',
+    "Vidéo d'intro : données de Mars NASA (MOLA, Viking), Jaanga CC BY 4.0.": 'Intro video: Mars data from NASA (MOLA, Viking), Jaanga CC BY 4.0.'
+  };
+  function tr(s) { return (LANG === 'en' && EN[s]) || s; }
+  function applyLang(lang) {
+    LANG = lang; root.lang = lang;
+    if (lang !== 'en') return;
+    document.title = 'Nils Louvel · B2B Business Developer, work-study';
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
+    while ((n = w.nextNode())) {
+      var v = n.nodeValue, k = v.trim().replace(/\s+/g, ' ');
+      if (EN[k]) n.nodeValue = v.match(/^\s*/)[0] + EN[k] + v.match(/\s*$/)[0];
+    }
+    document.querySelectorAll('[aria-label]').forEach(function (el) { var t = EN[el.getAttribute('aria-label')]; if (t) el.setAttribute('aria-label', t); });
+    document.querySelectorAll('[data-count]').forEach(function (el) {
+      if (el.dataset.suffix === ' %') el.dataset.suffix = '%';
+      el.textContent = fmt(el, +el.dataset.count);
+    });
+    wps.forEach(function (b, i) { b.setAttribute('aria-label', tr(rows[i].dataset.yr) + ' : ' + rows[i].querySelector('.job').textContent); });
+    pick(picked, false);
+  }
+
+  /* Profil de dénivelé, construit à partir des lignes du tableau */
+  var rows = [].slice.call(document.querySelectorAll('#xp .row')).reverse();
+  var pts = [[0, 92]].concat(rows.map(function (r) { return [+r.dataset.x, +r.dataset.y]; })).concat([[100, 10]]);
+  var d = 'M0 ' + pts[0][1] * 3;
+  for (var p = 1; p < pts.length; p++) {
+    var x0 = pts[p - 1][0] * 10, y0 = pts[p - 1][1] * 3, x1 = pts[p][0] * 10, y1 = pts[p][1] * 3, mx = (x0 + x1) / 2;
+    d += ' C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
+  }
+  document.getElementById('ridge').setAttribute('d', d);
+  document.getElementById('mass').setAttribute('d', d + ' L1000 300 L0 300 Z');
+  var prof = document.getElementById('profile'), capT = document.getElementById('cap-title'), capW = document.getElementById('cap-where');
+  var wps = rows.map(function (r, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'wp' + (r.classList.contains('next') ? ' summit' : '');
+    b.style.left = r.dataset.x + '%'; b.style.top = r.dataset.y + '%';
+    b.setAttribute('aria-label', r.dataset.yr + ' : ' + r.querySelector('.job').textContent);
+    b.innerHTML = '<i></i>';
+    b.addEventListener('click', function () { pick(i, true); });
+    prof.appendChild(b);
+    return b;
+  });
+  var picked = 0;
+  function pick(i, user) {
+    picked = i;
+    wps.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    var r = rows[i];
+    capT.textContent = tr(r.dataset.yr) + ' · ' + r.querySelector('.job').textContent;
+    capW.textContent = r.querySelector('li').textContent;
+    if (user) track('parcours_point_clicked', { poste: r.querySelector('.job').textContent });
+  }
+  pick(rows.length - 1, false);
+  document.querySelectorAll('#xp .row').forEach(function (r) {
+    r.addEventListener('toggle', function () { if (r.open) track('experience_opened', { poste: r.querySelector('.job').textContent }); });
+  });
+
+  /* Section active dans le dock et le rail + suivi des sections vues */
+  var links = document.querySelectorAll('.dock a, .rail a'), seen = {};
+  if ('IntersectionObserver' in window) {
+    var so = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
+        if (!seen[id]) { seen[id] = 1; track('section_viewed', { section: id }); }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section').forEach(function (s) { so.observe(s); });
+  }
+
+  /* Fenêtre de contact : un clic en dehors de la carte (sur le flou) ou Échap la ferme */
+  var modal = document.getElementById('contact-modal');
+  modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+  modal.querySelector('.close').addEventListener('click', function () { modal.close(); });
+
+  /* Clics suivis + défilement vers la section, fait en JS pour marcher même si l'URL de la page est spéciale (aperçu, data:) */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-track]');
+    if (a) track(a.dataset.track, { emplacement: a.dataset.where });
+    if (a && a.dataset.track === 'contact_cta') return;  // déjà géré : ouvre la fenêtre de contact
+    var link = e.target.closest('a[href^="#"]');
+    var target = link && document.getElementById(link.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    try { history.replaceState(null, '', link.getAttribute('href')); } catch (err) {}
+  });
+
+  /* Copier e-mail / téléphone */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.copy), txt = el.textContent;
+      track('contact_copied', { type: btn.dataset.copy });
+      function done(msg) { btn.textContent = tr(msg); setTimeout(function () { btn.textContent = tr('Copier'); }, 1800); }
+      function fallback() { var r = document.createRange(); r.selectNodeContents(el); var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); done('Sélectionné'); }
+      try { navigator.clipboard.writeText(txt).then(function () { done('Copié'); }, fallback); } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
