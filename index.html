@@ -341,7 +341,7 @@ section + section { margin-top: 56px; }
 
   <section id="accueil" class="hello">
     <h1 class="reveal">Bonjour, je suis Nils</h1>
-    <p class="reveal" style="--d:.08s">Je cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. J'ai fait de la vente terrain, de l'emailing et des salons. Et je code mes propres outils avec Claude.</p>
+    <p class="reveal" id="accroche" style="--d:.08s">Je cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. J'ai fait de la vente terrain, de l'emailing et des salons. Et je code mes propres outils avec Claude.</p>
 
     <div class="top-grid">
       <div class="card profile-card reveal" style="--d:.12s">
@@ -349,7 +349,7 @@ section + section { margin-top: 56px; }
           <span class="label">Poste visé</span><span class="chip">Disponible</span>
         </div>
         <div class="big">Business Developer SaaS BtoB</div>
-        <p class="label">Prospecter, faire des démos et suivre les opportunités jusqu'au closing. Rythme : 3 semaines en entreprise, 1 semaine à l'EM Normandie.</p>
+        <p class="label" id="resume-poste">Prospecter, faire des démos et suivre les opportunités jusqu'au closing. Rythme : 3 semaines en entreprise, 1 semaine à l'EM Normandie.</p>
         <div class="btns">
           <a class="btn dark" href="#contact" data-track="contact_cta" data-where="profil"><svg class="i"><use href="#i-mail"/></svg>Me contacter</a>
           <a class="btn" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="profil"><svg class="i"><use href="#i-in"/></svg>LinkedIn</a>
@@ -465,7 +465,7 @@ section + section { margin-top: 56px; }
       <div class="card cbox lift reveal" style="--d:.12s"><span class="label">LinkedIn</span><span class="val">nils-louvel</span>
         <div class="row-btns"><a class="btn dark" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="contact"><svg class="i"><use href="#i-in"/></svg>Voir le profil<svg class="i"><use href="#i-arrow"/></svg></a></div></div>
     </div>
-    <p class="foot-note">Nils Louvel, Caen. Page construite avec Claude.</p>
+    <p class="foot-note">Nils Louvel, Caen. Construit avec l'aide de Claude Code.<br>Vidéo d'intro : données de Mars NASA (MOLA, Viking), Jaanga CC BY 4.0.</p>
   </section>
 </main>
 
@@ -495,13 +495,88 @@ section + section { margin-top: 56px; }
 <script>
 /* Statistiques (Umami, sans cookie). Coller ici l'identifiant du site créé sur cloud.umami.is.
    Tant que c'est vide, rien n'est envoyé. */
-var UMAMI_ID = '';
+var UMAMI_ID = 'd90f757d-edb5-46a6-bb3c-e96d29ffdb75';
+
+/* Lien perso par candidature : nilsuu9.github.io/?ref=nom-entreprise
+   Le nom est gardé pendant la visite et ajouté à chaque événement envoyé à Umami. */
+var REF = (function () {
+  try {
+    var r = new URLSearchParams(location.search).get('ref');
+    if (r) {
+      r = r.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9_-]/g, '-').slice(0, 40);
+      sessionStorage.setItem('ref', r);
+    } else r = sessionStorage.getItem('ref');
+    return r || '';
+  } catch (e) { return ''; }
+})();
+
+/* ===== Personnalisation par entreprise =====
+   Le lien nilsuu9.github.io/?ref=nom affiche le poste, l'accroche et les missions de cette entreprise.
+   Pour ajouter une entreprise : copier le bloc « demo », remplacer « demo » par le nom utilisé dans le lien
+   (minuscules, tirets, sans accents), modifier les textes, puis republier le site.
+   Un champ absent garde le texte par défaut du site. Sans accroche, le poste est inséré dans l'accroche par défaut. */
+var OFFRES = {
+  'demo': {
+    poste: 'Chargé de développement commercial',
+    poste_en: 'Business Development Associate',
+    missions: [
+      'Prospecter et qualifier de nouveaux comptes BtoB',
+      "Préparer les rendez-vous et présenter l'offre aux clients",
+      "Suivre le pipeline dans le CRM jusqu'à la signature"
+    ],
+    missions_en: [
+      'Prospect and qualify new B2B accounts',
+      'Prepare meetings and present the offer to clients',
+      'Track the pipeline in the CRM through to signature'
+    ]
+  }
+};
+var OFFRE = (REF && OFFRES[REF]) || null;
+(function appliquerOffre() {
+  if (!OFFRE) return;
+  try {
+    var DEFAUT = 'Business Developer SaaS BtoB';
+    if (OFFRE.poste) {
+      document.querySelectorAll('.profile-card .big, #xp .row.next .job').forEach(function (el) { el.textContent = OFFRE.poste; });
+      document.title = 'Nils Louvel · ' + OFFRE.poste + ' en alternance';
+    }
+    var acc = document.getElementById('accroche');
+    if (acc && OFFRE.accroche) acc.textContent = OFFRE.accroche;
+    else if (acc && OFFRE.poste) acc.textContent = acc.textContent.replace(DEFAUT, OFFRE.poste);
+    var res = document.getElementById('resume-poste');
+    if (res && OFFRE.resume) res.textContent = OFFRE.resume;
+    var ul = document.querySelector('#xp .row.next ul');
+    if (ul && OFFRE.missions && OFFRE.missions.length) {
+      ul.innerHTML = '';
+      OFFRE.missions.forEach(function (m) { var li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+    }
+  } catch (e) {}
+})();
+
+/* Les événements envoyés avant le chargement d'Umami sont mis en attente, puis envoyés */
+var trackQueue = [];
+function track(name, data) {
+  try {
+    data = data || {};
+    if (REF) data.ref = REF;
+    if (window.umami && window.umami.track) window.umami.track(name, data);
+    else trackQueue.push([name, data]);
+  } catch (e) {}
+}
 if (UMAMI_ID) {
   var s = document.createElement('script');
   s.defer = true; s.src = 'https://cloud.umami.is/script.js'; s.dataset.websiteId = UMAMI_ID;
+  s.onload = function () {
+    try {
+      if (REF) {
+        if (window.umami.identify) window.umami.identify({ ref: REF });
+        window.umami.track('visite_lien_perso', { ref: REF });
+      }
+      trackQueue.splice(0).forEach(function (e) { window.umami.track(e[0], e[1]); });
+    } catch (e) {}
+  };
   document.head.appendChild(s);
 }
-function track(name, data) { try { if (window.umami) window.umami.track(name, data); } catch (e) {} }
 
 /* Boutons « Me contacter » : ouvrent la fenêtre de contact au lieu de descendre en bas de page.
    Placé avant tout le reste et en phase de capture, pour marcher même si une autre partie du script plante. */
@@ -531,7 +606,7 @@ document.addEventListener('click', function (e) {
       '<div class="lang"><button type="button" lang="en" data-lang="en">English</button><span aria-hidden="true">/</span><button type="button" lang="fr" data-lang="fr">Français</button></div>';
     document.body.appendChild(box); root.style.overflow = 'hidden';
     var v = box.querySelector('video'), done = false, shown = false;
-    // Titre puis boutons quand le soleil est levé (6 s) ; tout de suite si la vidéo ne peut pas se lancer
+    // Titre puis boutons quand le soleil est levé (4 s) ; tout de suite si la vidéo ne peut pas se lancer
     function show() { if (shown) return; shown = true; box.classList.add('ready'); }
     v.addEventListener('error', show);
     v.addEventListener('timeupdate', function () { if (v.currentTime > 4) show(); });
@@ -545,12 +620,15 @@ document.addEventListener('click', function (e) {
     function end(lang) {
       if (done) return; done = true;
       applyLang(lang);
-      track('language_chosen', { lang: lang });
+      var vu = Math.round(v.currentTime || 0);
+      track('language_chosen', { lang: lang, video_secondes: vu, video_vue_en_entier: !!(v.ended || (v.duration && v.currentTime >= v.duration - 0.5)) });
       box.classList.add('out'); root.style.overflow = '';
       setTimeout(function () { v.pause(); box.remove(); }, 900);
       startReveal();
     }
     box.querySelector('.lang').addEventListener('click', function (e) { var b = e.target.closest('[data-lang]'); if (b) end(b.dataset.lang); });
+    // Visiteur parti pendant l'intro, sans choisir de langue
+    addEventListener('pagehide', function () { if (!done) track('intro_quittee', { video_secondes: Math.round(v.currentTime || 0) }); });
   }
 
   /* Ciel étoilé du fond, redessiné seulement si la largeur change (évite le scintillement sur mobile) */
@@ -588,7 +666,9 @@ document.addEventListener('click', function (e) {
     (function step(now) { var p = Math.min(1, (now - t0) / 1200); el.textContent = fmt(el, end * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); })(t0);
   }
   // Lancé à la fermeture de l'intro, pour que les animations se jouent devant le visiteur
+  var revealed = false;
   function startReveal() {
+  revealed = true;
   if (!reduce && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
@@ -688,13 +768,27 @@ document.addEventListener('click', function (e) {
     'E-mail': 'Email', 'Écrire': 'Write', 'Copier': 'Copy', 'Copié': 'Copied', 'Sélectionné': 'Selected',
     'Téléphone': 'Phone', 'Appeler': 'Call', 'Voir le profil': 'View profile',
     '07 67 06 93 46': '+33 7 67 06 93 46',
-    'Nils Louvel, Caen. Page construite avec Claude.': 'Nils Louvel, Caen, France. Page built with Claude.'
+    "Nils Louvel, Caen. Construit avec l'aide de Claude Code.": 'Nils Louvel, Caen, France. Built with the help of Claude Code.',
+    "Vidéo d'intro : données de Mars NASA (MOLA, Viking), Jaanga CC BY 4.0.": 'Intro video: Mars data from NASA (MOLA, Viking), Jaanga CC BY 4.0.'
   };
+  if (OFFRE) {
+    var accEl = document.getElementById('accroche');
+    if (OFFRE.poste && OFFRE.poste_en) EN[OFFRE.poste] = OFFRE.poste_en;
+    if (accEl) {
+      if (OFFRE.accroche && OFFRE.accroche_en) EN[OFFRE.accroche] = OFFRE.accroche_en;
+      else if (!OFFRE.accroche && OFFRE.poste && OFFRE.poste_en) {
+        var accFr = "Je cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. J'ai fait de la vente terrain, de l'emailing et des salons. Et je code mes propres outils avec Claude.";
+        EN[accFr.replace('Business Developer SaaS BtoB', OFFRE.poste)] = EN[accFr].replace('a B2B SaaS Business Developer', (/^[aeiou]/i.test(OFFRE.poste_en) ? 'an ' : 'a ') + OFFRE.poste_en);
+      }
+    }
+    if (OFFRE.resume && OFFRE.resume_en) EN[OFFRE.resume] = OFFRE.resume_en;
+    (OFFRE.missions || []).forEach(function (m, i) { if (OFFRE.missions_en && OFFRE.missions_en[i]) EN[m] = OFFRE.missions_en[i]; });
+  }
   function tr(s) { return (LANG === 'en' && EN[s]) || s; }
   function applyLang(lang) {
     LANG = lang; root.lang = lang;
     if (lang !== 'en') return;
-    document.title = 'Nils Louvel · B2B Business Developer, work-study';
+    document.title = 'Nils Louvel · ' + (OFFRE && OFFRE.poste_en ? OFFRE.poste_en : 'B2B Business Developer') + ', work-study';
     var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
     while ((n = w.nextNode())) {
       var v = n.nodeValue, k = v.trim().replace(/\s+/g, ' ');
@@ -745,18 +839,49 @@ document.addEventListener('click', function (e) {
   });
 
   /* Section active dans le dock et le rail + suivi des sections vues */
+  var currentSection = 'accueil';
   var links = document.querySelectorAll('.dock a, .rail a'), seen = {};
   if ('IntersectionObserver' in window) {
     var so = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
         if (!en.isIntersecting) return;
         var id = en.target.id;
+        currentSection = id;
         links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
         if (!seen[id]) { seen[id] = 1; track('section_viewed', { section: id }); }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     document.querySelectorAll('main section').forEach(function (s) { so.observe(s); });
   }
+
+  /* Temps passé dans chaque section : compté chaque seconde où la page est visible,
+     envoyé quand le visiteur quitte ou change d'onglet (sections de 2 s ou plus) */
+  var sectionTime = {};
+  setInterval(function () {
+    if (!revealed || document.visibilityState !== 'visible' || !currentSection) return;
+    sectionTime[currentSection] = (sectionTime[currentSection] || 0) + 1;
+  }, 1000);
+  function flushSectionTime() {
+    Object.keys(sectionTime).forEach(function (id) {
+      if (sectionTime[id] >= 2) track('temps_section', { section: id, secondes: sectionTime[id] });
+    });
+    sectionTime = {};
+  }
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flushSectionTime(); });
+  addEventListener('pagehide', flushSectionTime);
+
+  /* Profondeur de lecture : 25, 50, 75 et 100 % de la page, une fois chacun */
+  var depthSent = {}, depthTick = false;
+  function checkDepth() {
+    depthTick = false;
+    if (!revealed) return;
+    var doc = document.documentElement, h = doc.scrollHeight - innerHeight;
+    var pct = h > 0 ? (scrollY / h) * 100 : 100;
+    [25, 50, 75, 100].forEach(function (p) {
+      if (pct >= p - 2 && !depthSent[p]) { depthSent[p] = 1; track('profondeur_lecture', { pourcent: p }); }
+    });
+  }
+  addEventListener('scroll', function () { if (!depthTick) { depthTick = true; requestAnimationFrame(checkDepth); } }, { passive: true });
 
   /* Fenêtre de contact : un clic en dehors de la carte (sur le flou) ou Échap la ferme */
   var modal = document.getElementById('contact-modal');
