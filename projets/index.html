@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projets · Nils Louvel</title>
+<meta name="description" content="Les outils que Nils Louvel a construits avec Claude : le besoin de départ, à qui ils servent et ce qu'ils font.">
+<meta name="theme-color" content="#070403">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Même thème que la page principale (fond spatial, verre, rail à gauche).
+   Différence : les couleurs changent selon le projet affiché.
+   Chaque section a un data-p ; le script le recopie sur <body>, et les règles body[data-p=...] plus bas
+   changent les couleurs. @property permet au navigateur de faire un fondu entre deux couleurs. */
+@property --c1 { syntax: '<color>'; inherits: true; initial-value: rgba(150, 62, 24, 0.42); }
+@property --c2 { syntax: '<color>'; inherits: true; initial-value: rgba(95, 38, 14, 0.45); }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #E2783F; }
+@property --accent-2 { syntax: '<color>'; inherits: true; initial-value: #F2C49B; }
+
+:root {
+  --bg: #070403;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.13);
+  --glass-shine: rgba(255, 255, 255, 0.2);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --fg: #F7EEE6; --muted: #B8A496; --line: rgba(255, 255, 255, 0.09);
+  --cta: #FFF3E6; --cta-ink: #1A0C06;
+  --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --r-lg: 20px; --r-md: 14px;
+  color-scheme: dark;
+}
+/* Palettes : intro = Mars (comme l'accueil) ; Rando = forêt et soleil de l'appli Sac & Dénivelé */
+body { --c1: rgba(150, 62, 24, 0.42); --c2: rgba(95, 38, 14, 0.45); --accent: #E2783F; --accent-2: #F2C49B;
+  transition: --c1 .9s ease, --c2 .9s ease, --accent .9s ease, --accent-2 .9s ease; }
+body[data-p="crm"] { --c1: rgba(40, 92, 190, 0.45); --c2: rgba(20, 45, 110, 0.5); --accent: #7AB0FF; --accent-2: #B9D4FF; }
+body[data-p="relances"] { --c1: rgba(120, 70, 200, 0.42); --c2: rgba(70, 35, 120, 0.5); --accent: #B794F6; --accent-2: #E2D3FF; }
+body[data-p="rando"] { --c1: rgba(78, 107, 60, 0.5); --c2: rgba(120, 100, 30, 0.38); --accent: #9DBB7E; --accent-2: #E9C46A; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* Fond */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+.blob { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; opacity: 0.85; }
+.blob.b1 { background: radial-gradient(circle, var(--c1), transparent 62%); top: -25vmax; left: -15vmax; animation: drift1 26s ease-in-out infinite alternate; }
+.blob.b2 { background: radial-gradient(circle, var(--c2), transparent 62%); bottom: -30vmax; right: -20vmax; animation: drift2 32s ease-in-out infinite alternate; }
+.blob.b3 { background: radial-gradient(circle, rgba(255, 214, 170, 0.08), transparent 60%); top: 30%; left: 35%; width: 50vmax; height: 50vmax; animation: drift1 38s ease-in-out infinite alternate-reverse; }
+@keyframes drift1 { to { transform: translate(12vw, 10vh) scale(1.1); } }
+@keyframes drift2 { to { transform: translate(-14vw, -8vh) scale(1.15); } }
+#stars { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); animation: float 60s ease-in-out infinite alternate; }
+@keyframes float { to { transform: translate(-30px, -24px); } }
+
+/* Verre */
+.glass { position: relative; background: var(--glass); border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(24px) saturate(170%); backdrop-filter: blur(24px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-shine), inset 0 -1px 0 rgba(255,255,255,0.08), var(--shadow); }
+.card { position: relative; background: var(--glass-strong); border: 1px solid var(--glass-border); border-radius: var(--r-lg);
+  box-shadow: inset 0 1px 0 var(--glass-shine); padding: 22px; }
+.glass::before, .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, -30%), rgba(255,255,255,0.07), transparent 65%);
+  opacity: 0; transition: opacity .3s; }
+.glass:hover::before, .card:hover::before { opacity: 1; }
+
+/* Barre du haut avec la flèche retour à gauche */
+.topbar { position: fixed; z-index: 20; top: max(14px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  width: min(1240px, calc(100% - 24px)); border-radius: 999px; padding: 8px 8px 8px 8px;
+  display: flex; align-items: center; gap: 12px; }
+.back { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; flex: none; text-decoration: none;
+  background: var(--glass-strong); border: 1px solid var(--glass-border); transition: transform .2s, background .2s; }
+.back:hover { transform: translateX(-3px); background: rgba(255,255,255,.12); }
+.back svg.i { width: 20px; height: 20px; }
+.who { font: 600 15px var(--display); white-space: nowrap; }
+.who small { display: block; font: 400 12px var(--body); color: var(--muted); }
+.now { margin-left: auto; display: flex; align-items: center; gap: 10px; padding: 7px 16px 7px 8px; border-radius: 999px;
+  background: var(--glass-strong); border: 1px solid var(--glass-border); font-size: 14px; color: var(--muted); }
+.now .orb { width: 22px; height: 22px; border-radius: 50%; flex: none; background: conic-gradient(var(--accent), var(--accent-2), var(--accent));
+  animation: spin 6s linear infinite; box-shadow: 0 0 12px var(--accent); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Rail : comme l'accueil, avec 5 points entre chaque projet qui s'allument au fil du défilement */
+.rail { position: fixed; z-index: 15; left: max(18px, env(safe-area-inset-left)); top: 50%; transform: translateY(-50%);
+  width: 60px; overflow: hidden; border-radius: 30px; padding: 8px; display: none; flex-direction: column; gap: 6px;
+  transition: width .35s cubic-bezier(.2,.8,.2,1); }
+.rail:hover, .rail:focus-within { width: 220px; }
+.rail a { display: flex; align-items: center; gap: 14px; height: 42px; padding-left: 12px; border-radius: 21px; color: var(--muted); text-decoration: none; transition: background .25s, color .25s; }
+.rail a:hover, .rail a.on { color: var(--fg); }
+.rail a.on { background: var(--glass-strong); box-shadow: inset 0 1px 0 var(--glass-shine), 0 4px 10px rgba(0,0,0,.08); }
+.rail a.on svg { color: var(--accent); }
+.rail a span { white-space: nowrap; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity .25s; }
+.rail:hover a span, .rail:focus-within a span { opacity: 1; }
+/* Points centrés sous les icônes (12 px de marge + la moitié de l'icône de 18 px, moins la moitié du point) */
+.steps { display: flex; flex-direction: column; gap: 6px; padding: 2px 0 2px 19px; }
+.steps i { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); opacity: .3;
+  transition: opacity .3s, transform .3s, background .3s, box-shadow .3s; }
+.steps i.lit { opacity: 1; background: var(--accent); transform: scale(1.5); box-shadow: 0 0 6px var(--accent); }
+
+/* Sections : une par projet, chacune prend au moins la hauteur de l'écran */
+main { width: min(1240px, calc(100% - 24px)); margin: 0 auto; }
+.proj { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: calc(96px + env(safe-area-inset-top)) 0 40px; }
+.panel { width: 100%; border-radius: 34px; padding: 34px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); white-space: nowrap; }
+.chip.grey { background: var(--line); color: var(--muted); }
+.kicker { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.panel h1 { font-size: clamp(36px, 5.6vw, 64px); line-height: 1.02; margin-top: 14px; }
+.panel h2 { font-size: clamp(30px, 4.4vw, 50px); line-height: 1.05; margin-top: 14px; }
+.lead { color: var(--muted); max-width: 64ch; margin-top: 14px; font-size: 17px; }
+.grid { display: grid; gap: 16px; margin-top: 28px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.card h3 { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.card h3 .ico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.card p, .card li { color: var(--muted); font-size: 15px; }
+.card ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.card li::marker { color: var(--accent); }
+.foot { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; margin-top: 22px;
+  padding: 16px 18px; border-radius: var(--r-md); background: var(--line); }
+.foot b { font: 700 clamp(26px, 3vw, 34px)/1 var(--display); color: var(--accent-2); }
+.foot span { color: var(--muted); font-size: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span { padding: 6px 13px; border-radius: 999px; font-size: 13.5px; background: var(--glass-strong); border: 1px solid var(--glass-border); }
+.btn { min-height: 46px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px;
+  font: 600 14.5px var(--display); text-decoration: none; border: 1px solid transparent; background: var(--cta); color: var(--cta-ink); transition: transform .2s; }
+.btn:hover { transform: translateY(-2px); }
+.intro-list { display: grid; gap: 10px; margin-top: 28px; }
+.intro-list a { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: var(--r-lg); text-decoration: none;
+  background: var(--glass-strong); border: 1px solid var(--glass-border); transition: transform .25s, background .25s; }
+.intro-list a:hover { transform: translateX(4px); background: rgba(255,255,255,.1); }
+.intro-list .sw { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.intro-list b { font-family: var(--display); }
+.intro-list span { color: var(--muted); font-size: 14px; margin-left: auto; text-align: right; }
+
+/* Dock du bas sur téléphone */
+.dock { position: fixed; z-index: 20; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+  border-radius: 999px; padding: 6px; display: flex; gap: 2px; max-width: calc(100% - 20px); }
+.dock a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 56px; min-height: 48px;
+  padding: 4px 10px; border-radius: 999px; text-decoration: none; color: var(--muted); font-size: 10.5px; font-weight: 500; transition: background .3s, color .3s; }
+.dock a.on { background: var(--glass-strong); color: var(--fg); box-shadow: inset 0 1px 0 var(--glass-shine); }
+.dock a.on svg { color: var(--accent); }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0s); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (min-width: 1100px) {
+  .rail { display: flex; }
+  .dock { display: none; }
+  main { width: min(1240px, calc(100% - 140px)); margin-left: max(96px, calc((100% - 1240px) / 2)); }
+}
+@media (max-width: 640px) {
+  .now { display: none; }
+  .panel { padding: 22px 16px; border-radius: 26px; }
+  main { width: calc(100% - 16px); }
+  .proj { padding-bottom: 96px; }
+  .intro-list span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body { transition: none; }
+  .blob, .orb, #stars { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z"/><path d="M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8z"/></symbol>
+  <symbol id="i-pipe" viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><path d="m3 20 6-10 4 6 3-4 5 8z"/><path d="M14.5 6.5 16 4l1.5 2.5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3z"/><path d="m5 5 3 3M3 7l4-4"/></symbol>
+</svg>
+
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <canvas id="stars"></canvas>
+</div>
+
+<header class="topbar glass">
+  <a class="back" href="../index.html#projets" id="back" aria-label="Retour au portfolio"><svg class="i"><use href="#i-back"/></svg></a>
+  <div class="who">Projets<small>Nils Louvel</small></div>
+  <div class="now"><span class="orb" aria-hidden="true"></span><span id="now-name">Construit avec Claude</span></div>
+</header>
+
+<!-- Le rail est rempli par le script à partir des sections (icône, nom, et 5 points entre chaque) -->
+<nav class="rail glass" aria-label="Projets" id="rail"></nav>
+<nav class="dock glass" aria-label="Projets" id="dock"></nav>
+
+<main>
+  <section class="proj" id="intro" data-p="intro" data-name="Construit avec Claude" data-short="Intro" data-icon="i-spark">
+    <div class="panel glass">
+      <div class="kicker reveal"><span class="chip">3 projets</span><span class="chip grey">Faits avec Claude</span></div>
+      <h1 class="reveal" style="--d:.06s">Des outils nés d'un vrai besoin</h1>
+      <p class="lead reveal" style="--d:.12s">Je ne code pas pour coder. Chaque projet est parti d'un problème que j'avais moi-même, et je l'ai construit avec Claude pour le régler. Pour chacun : le besoin de départ, à qui il sert, et ce qu'il fait.</p>
+      <div class="intro-list">
+        <a class="reveal" style="--d:.16s" href="#crm"><i class="sw" style="background:#7AB0FF"></i><b>Suivi de candidatures</b><span>Mini-CRM</span></a>
+        <a class="reveal" style="--d:.2s" href="#relances"><i class="sw" style="background:#B794F6"></i><b>Relances à J+10</b><span>Automatisation Excel</span></a>
+        <a class="reveal" style="--d:.24s" href="#rando"><i class="sw" style="background:#9DBB7E"></i><b>Sac &amp; Dénivelé</b><span>Appli web</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj" id="crm" data-p="crm" data-name="Suivi de candidatures" data-short="CRM" data-icon="i-pipe">
+    <div class="panel glass">
+      <div class="kicker reveal"><span class="chip">Mini-CRM</span><span class="chip grey">Site web</span></div>
+      <h2 class="reveal" style="--d:.06s">Suivi de candidatures</h2>
+      <p class="lead reveal" style="--d:.12s">Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.</p>
+      <div class="grid">
+        <div class="card reveal" style="--d:.16s"><h3><span class="ico"><svg class="i"><use href="#i-target"/></svg></span>Le besoin</h3>
+          <p>En cherchant une alternance, j'avais des dizaines d'entreprises à contacter. Je perdais le fil : qui j'avais appelé, qui avait répondu, quelles offres venaient de sortir.</p></div>
+        <div class="card reveal" style="--d:.2s"><h3><span class="ico"><svg class="i"><use href="#i-users"/></svg></span>Pour qui</h3>
+          <p>Pour moi d'abord, puis pour tout étudiant qui cherche une alternance. C'est la même logique qu'un CRM commercial : des prospects, des étapes, des suivis.</p></div>
+        <div class="card reveal" style="--d:.24s"><h3><span class="ico"><svg class="i"><use href="#i-tool"/></svg></span>Ce qu'il fait</h3>
+          <ul><li>Un pipeline par étape, du premier contact à l'entretien</li><li>Une base de 58 entreprises de Caen</li><li>Une veille quotidienne des nouvelles offres</li></ul></div>
+      </div>
+      <div class="foot reveal" style="--d:.28s"><div><b>58</b> <span>entreprises suivies</span></div><div class="tags"><span>Pipeline</span><span>Veille</span><span>Claude</span></div></div>
+    </div>
+  </section>
+
+  <section class="proj" id="relances" data-p="relances" data-name="Relances à J+10" data-short="Relances" data-icon="i-clock">
+    <div class="panel glass">
+      <div class="kicker reveal"><span class="chip">Automatisation</span><span class="chip grey">Excel</span></div>
+      <h2 class="reveal" style="--d:.06s">Relances à J+10</h2>
+      <p class="lead reveal" style="--d:.12s">Un tracker Excel avec des statuts en couleur et une date de relance calculée toute seule, comme une cadence de prospection.</p>
+      <div class="grid">
+        <div class="card reveal" style="--d:.16s"><h3><span class="ico"><svg class="i"><use href="#i-target"/></svg></span>Le besoin</h3>
+          <p>Une candidature sans relance, c'est souvent une candidature perdue. Je voulais savoir chaque matin qui relancer, sans tout recompter à la main.</p></div>
+        <div class="card reveal" style="--d:.2s"><h3><span class="ico"><svg class="i"><use href="#i-users"/></svg></span>Pour qui</h3>
+          <p>Pour les candidats, et pour un commercial ou une petite équipe qui n'a pas encore de CRM mais doit tenir une cadence de relance.</p></div>
+        <div class="card reveal" style="--d:.24s"><h3><span class="ico"><svg class="i"><use href="#i-tool"/></svg></span>Ce qu'il fait</h3>
+          <ul><li>Un statut en couleur pour chaque contact</li><li>La date de relance calculée toute seule, 10 jours après l'envoi</li><li>Les relances du jour visibles d'un coup d'œil</li></ul></div>
+      </div>
+      <div class="foot reveal" style="--d:.28s"><div><b>J+10</b> <span>relance automatique</span></div><div class="tags"><span>Excel</span><span>Formules</span><span>Claude</span></div></div>
+    </div>
+  </section>
+
+  <section class="proj" id="rando" data-p="rando" data-name="Sac &amp; Dénivelé" data-short="Rando" data-icon="i-route">
+    <div class="panel glass">
+      <div class="kicker reveal"><span class="chip">Vibe coding</span><span class="chip grey">Appli web</span></div>
+      <h2 class="reveal" style="--d:.06s">Sac &amp; Dénivelé</h2>
+      <p class="lead reveal" style="--d:.12s">Pour préparer une rando : checklist du sac, import d'itinéraire GPX, profil de dénivelé et calcul de la nourriture.</p>
+      <div class="grid">
+        <div class="card reveal" style="--d:.16s"><h3><span class="ico"><svg class="i"><use href="#i-target"/></svg></span>Le besoin</h3>
+          <p>Avant un raid en montagne, je jonglais entre une liste papier, une appli de carte et des calculs de tête. Je voulais tout préparer au même endroit et savoir combien pèse mon sac.</p></div>
+        <div class="card reveal" style="--d:.2s"><h3><span class="ico"><svg class="i"><use href="#i-users"/></svg></span>Pour qui</h3>
+          <p>Pour les randonneurs qui préparent une sortie de plusieurs jours, seuls ou en groupe, et qui veulent un sac ni trop lourd ni trop léger.</p></div>
+        <div class="card reveal" style="--d:.24s"><h3><span class="ico"><svg class="i"><use href="#i-tool"/></svg></span>Ce qu'il fait</h3>
+          <ul><li>Une checklist du sac avec le poids total</li><li>L'import d'un fichier GPX, le tracé et le profil de dénivelé</li><li>L'effort en km-effort et la nourriture à emporter</li><li>Plusieurs sorties, avec un compte pour les retrouver</li></ul></div>
+      </div>
+      <div class="foot reveal" style="--d:.28s"><div><b>km + D+/100</b> <span>le calcul du km-effort</span></div><div class="tags"><span>HTML</span><span>JavaScript</span><span>GPX</span><span>Supabase</span></div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var secs = [].slice.call(document.querySelectorAll('main .proj'));
+  var rail = document.getElementById('rail'), dock = document.getElementById('dock'), nowName = document.getElementById('now-name');
+  var DOTS = 5;
+
+  /* Traduction anglaise : l'accueil ouvre cette page avec ?lang=en si le visiteur a choisi English.
+     Même principe que l'accueil : phrase française exacte à gauche, anglais à droite. */
+  var EN = {
+    'Projets': 'Projects', 'Retour au portfolio': 'Back to portfolio',
+    'Construit avec Claude': 'Built with Claude', '3 projets': '3 projects', 'Faits avec Claude': 'Made with Claude',
+    "Des outils nés d'un vrai besoin": 'Tools born from a real need',
+    "Je ne code pas pour coder. Chaque projet est parti d'un problème que j'avais moi-même, et je l'ai construit avec Claude pour le régler. Pour chacun : le besoin de départ, à qui il sert, et ce qu'il fait.":
+      "I don't code for the sake of it. Each project started from a problem I had myself, and I built it with Claude to solve it. For each one: the original need, who it's for, and what it does.",
+    'Suivi de candidatures': 'Job application tracker', 'Relances à J+10': 'Follow-ups at D+10', 'Sac & Dénivelé': 'Pack & Elevation',
+    'Automatisation Excel': 'Excel automation', 'Appli web': 'Web app', 'Site web': 'Website', 'Automatisation': 'Automation',
+    'Intro': 'Intro', 'CRM': 'CRM', 'Relances': 'Follow-ups', 'Rando': 'Hiking',
+    'Le besoin': 'The need', 'Pour qui': "Who it's for", "Ce qu'il fait": 'What it does',
+    'Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.':
+      'A site with a pipeline, a database of 58 companies in Caen and a daily scan of job offers.',
+    "En cherchant une alternance, j'avais des dizaines d'entreprises à contacter. Je perdais le fil : qui j'avais appelé, qui avait répondu, quelles offres venaient de sortir.":
+      'While looking for a work-study position, I had dozens of companies to contact. I kept losing track: who I had called, who had replied, which offers had just come out.',
+    "Pour moi d'abord, puis pour tout étudiant qui cherche une alternance. C'est la même logique qu'un CRM commercial : des prospects, des étapes, des suivis.":
+      "For me first, then for any student looking for a work-study position. It works like a sales CRM: prospects, stages, follow-ups.",
+    "Un pipeline par étape, du premier contact à l'entretien": 'A pipeline by stage, from first contact to interview',
+    'Une base de 58 entreprises de Caen': 'A database of 58 companies in Caen',
+    'Une veille quotidienne des nouvelles offres': 'A daily scan of new job offers',
+    'entreprises suivies': 'companies tracked', 'Veille': 'Job alerts',
+    'Un tracker Excel avec des statuts en couleur et une date de relance calculée toute seule, comme une cadence de prospection.':
+      'An Excel tracker with color-coded statuses and a follow-up date that calculates itself, like a sales cadence.',
+    "Une candidature sans relance, c'est souvent une candidature perdue. Je voulais savoir chaque matin qui relancer, sans tout recompter à la main.":
+      'An application without a follow-up is often a lost one. I wanted to know every morning who to follow up with, without counting days by hand.',
+    "Pour les candidats, et pour un commercial ou une petite équipe qui n'a pas encore de CRM mais doit tenir une cadence de relance.":
+      "For job seekers, and for a salesperson or small team that doesn't have a CRM yet but needs to keep a follow-up cadence.",
+    'Un statut en couleur pour chaque contact': 'A color-coded status for each contact',
+    "La date de relance calculée toute seule, 10 jours après l'envoi": 'The follow-up date calculated automatically, 10 days after sending',
+    "Les relances du jour visibles d'un coup d'œil": "Today's follow-ups visible at a glance",
+    'J+10': 'D+10', 'relance automatique': 'automatic follow-up', 'Formules': 'Formulas',
+    "Pour préparer une rando : checklist du sac, import d'itinéraire GPX, profil de dénivelé et calcul de la nourriture.":
+      'For planning a hike: packing checklist, GPX route import, elevation profile and food planning.',
+    'Avant un raid en montagne, je jonglais entre une liste papier, une appli de carte et des calculs de tête. Je voulais tout préparer au même endroit et savoir combien pèse mon sac.':
+      'Before a mountain trek, I juggled a paper list, a map app and mental math. I wanted to prepare everything in one place and know how much my pack weighs.',
+    'Pour les randonneurs qui préparent une sortie de plusieurs jours, seuls ou en groupe, et qui veulent un sac ni trop lourd ni trop léger.':
+      'For hikers planning a multi-day trip, alone or in a group, who want a pack that is neither too heavy nor too light.',
+    'Une checklist du sac avec le poids total': 'A packing checklist with the total weight',
+    "L'import d'un fichier GPX, le tracé et le profil de dénivelé": 'GPX file import, with the route and elevation profile',
+    "L'effort en km-effort et la nourriture à emporter": 'Effort in effort-km, and the food to bring',
+    'Plusieurs sorties, avec un compte pour les retrouver': 'Several trips, with an account to find them again',
+    'km + D+/100': 'km + gain/100', 'le calcul du km-effort': 'the effort-km formula'
+  };
+  if (new URLSearchParams(location.search).get('lang') === 'en') {
+    document.documentElement.lang = 'en';
+    document.title = 'Projects · Nils Louvel';
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
+    while ((n = w.nextNode())) {
+      var v = n.nodeValue, k = v.trim().replace(/\s+/g, ' ');
+      if (EN[k]) n.nodeValue = v.match(/^\s*/)[0] + EN[k] + v.match(/\s*$/)[0];
+    }
+    document.querySelectorAll('[aria-label]').forEach(function (el) { var t = EN[el.getAttribute('aria-label')]; if (t) el.setAttribute('aria-label', t); });
+    secs.forEach(function (s) { s.dataset.name = EN[s.dataset.name] || s.dataset.name; s.dataset.short = EN[s.dataset.short] || s.dataset.short; });
+  }
+
+  /* Flèche retour : si on vient du portfolio, on revient en arrière (la page d'accueil garde sa place
+     et ne rejoue pas la vidéo) ; sinon le lien normal ouvre l'accueil. */
+  document.getElementById('back').addEventListener('click', function (e) {
+    try { if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { e.preventDefault(); history.back(); } } catch (err) {}
+  });
+
+  /* Rail et dock construits à partir des sections : ajouter un projet = ajouter une section */
+  var dotGroups = [];
+  secs.forEach(function (s, i) {
+    var icon = '<svg class="i"><use href="#' + s.dataset.icon + '"/></svg>';
+    var a = document.createElement('a'); a.href = '#' + s.id; a.innerHTML = icon + '<span></span>';
+    a.querySelector('span').textContent = s.dataset.name;
+    rail.appendChild(a);
+    var d = document.createElement('a'); d.href = '#' + s.id; d.innerHTML = icon + '<span></span>';
+    d.querySelector('span').textContent = s.dataset.short;
+    dock.appendChild(d);
+    if (i < secs.length - 1) {
+      var g = document.createElement('div'); g.className = 'steps'; g.setAttribute('aria-hidden', 'true');
+      for (var k = 0; k < DOTS; k++) g.appendChild(document.createElement('i'));
+      rail.appendChild(g); dotGroups.push(g.children);
+    }
+  });
+  var railLinks = rail.querySelectorAll('a'), dockLinks = dock.querySelectorAll('a');
+
+  /* Au défilement : p = position entre les sections (1,5 = à mi-chemin entre la 2e et la 3e).
+     Les points s'allument un par un entre deux projets, et les couleurs suivent le projet le plus visible. */
+  var current = -1;
+  function update() {
+    var mid = scrollY + 1, p = 0;  // mesuré depuis le haut de l'écran : p = 2 quand la 3e section touche le haut
+    for (var i = 0; i < secs.length; i++) {
+      var top = secs[i].offsetTop, next = secs[i + 1] ? secs[i + 1].offsetTop : top + secs[i].offsetHeight;
+      if (mid >= top) p = i + Math.min(1, (mid - top) / (next - top));
+    }
+    dotGroups.forEach(function (dots, g) {
+      for (var k = 0; k < DOTS; k++) dots[k].classList.toggle('lit', p >= g + (k + 1) / (DOTS + 1));
+    });
+    var on = Math.min(secs.length - 1, Math.floor(p + 0.5));
+    if (on === current) return;
+    current = on;
+    document.body.dataset.p = secs[on].dataset.p;
+    nowName.textContent = secs[on].dataset.name;
+    railLinks.forEach(function (a, k) { a.classList.toggle('on', k === on); });
+    dockLinks.forEach(function (a, k) { a.classList.toggle('on', k === on); });
+  }
+  var ticking = false;
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); } }, { passive: true });
+  addEventListener('resize', update);
+  update();
+
+  /* Liens internes : défilement doux fait en JS, pour marcher même dans un aperçu */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#"]');
+    var target = link && document.getElementById(link.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    try { history.replaceState(null, '', link.getAttribute('href')); } catch (err) {}
+  });
+
+  /* Ciel étoilé (même code que l'accueil) */
+  var sc = document.getElementById('stars'), sg = sc.getContext('2d'), lastW = 0;
+  function drawStars() {
+    var W = sc.clientWidth, H = sc.clientHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+    if (!W || W === lastW) return; lastW = W;
+    sc.width = W * dpr; sc.height = H * dpr; sg.setTransform(dpr, 0, 0, dpr, 0, 0);
+    for (var i = 0, n = Math.round(W * H / 2400); i < n; i++) {
+      var r = Math.random();
+      sg.fillStyle = 'rgba(255,244,232,' + (0.2 + r * 0.8) + ')';
+      sg.beginPath(); sg.arc(Math.random() * W, Math.random() * H, r < 0.94 ? r * 0.8 + 0.2 : 1.5, 0, 6.283); sg.fill();
+    }
+  }
+  drawStars();
+  var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(drawStars, 200); });
+
+  /* Reflet du verre qui suit le pointeur */
+  document.addEventListener('pointermove', function (e) {
+    var el = e.target.closest && e.target.closest('.card, .glass');
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+
+  /* Apparition au défilement */
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) { io.unobserve(en.target); en.target.classList.add('in'); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+})();
+</script>
+</body>
+</html>

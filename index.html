@@ -191,7 +191,7 @@ section + section { margin-top: 56px; }
 
 /* Projets */
 .projects { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
-.proj { min-height: 230px; display: flex; flex-direction: column; gap: 10px; padding: 22px; }
+.proj { text-decoration: none; min-height: 230px; display: flex; flex-direction: column; gap: 10px; padding: 22px; }
 .proj h3 { font-size: 21px; }
 .proj p { font-size: 15px; color: var(--muted); }
 .proj .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 600 13px var(--display); letter-spacing: .06em; }
@@ -414,11 +414,11 @@ section + section { margin-top: 56px; }
   </section>
 
   <section id="projets">
-    <div class="sec-head reveal"><h2>Construit avec Claude</h2><p>J'utilise l'IA tous les jours pour automatiser ce qui peut l'être. Voici trois outils que j'ai faits moi-même.</p></div>
+    <div class="sec-head reveal"><h2>Construit avec Claude</h2><p>J'utilise l'IA tous les jours pour automatiser ce qui peut l'être. Voici trois outils que j'ai faits moi-même.</p><a class="btn" href="projets/">Voir les projets en détail<svg class="i"><use href="#i-arrow"/></svg></a></div>
     <div class="projects">
-      <article class="card proj dark lift reveal"><span class="chip" style="align-self:flex-start">Mini-CRM</span><h3>Suivi de candidatures</h3><p>Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.</p><div class="foot"><span>58 ENTREPRISES</span><span class="dots"><i></i><i></i></span></div></article>
-      <article class="card proj teal lift reveal" style="--d:.08s"><span class="chip" style="align-self:flex-start">Automatisation</span><h3>Relances à J+10</h3><p>Un tracker Excel avec des statuts en couleur et une date de relance calculée toute seule, comme une cadence de prospection.</p><div class="foot"><span>J+10</span><span class="dots"><i></i><i></i></span></div></article>
-      <article class="card proj lift reveal" style="--d:.16s"><span class="chip" style="align-self:flex-start">Vibe coding</span><h3>Appli de randonnée</h3><p>Pour préparer une rando : checklist du sac, import d'itinéraire GPX, profil de dénivelé et calcul de la nourriture.</p><div class="foot"><span>SAC &amp; DÉNIVELÉ</span><span class="dots"><i></i><i></i></span></div></article>
+      <a class="card proj dark lift reveal" href="projets/#crm"><span class="chip" style="align-self:flex-start">Mini-CRM</span><h3>Suivi de candidatures</h3><p>Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.</p><div class="foot"><span>58 ENTREPRISES</span><span class="dots"><i></i><i></i></span></div></a>
+      <a class="card proj teal lift reveal" style="--d:.08s" href="projets/#relances"><span class="chip" style="align-self:flex-start">Automatisation</span><h3>Relances à J+10</h3><p>Un tracker Excel avec des statuts en couleur et une date de relance calculée toute seule, comme une cadence de prospection.</p><div class="foot"><span>J+10</span><span class="dots"><i></i><i></i></span></div></a>
+      <a class="card proj lift reveal" style="--d:.16s" href="projets/#rando"><span class="chip" style="align-self:flex-start">Vibe coding</span><h3>Appli de randonnée</h3><p>Pour préparer une rando : checklist du sac, import d'itinéraire GPX, profil de dénivelé et calcul de la nourriture.</p><div class="foot"><span>SAC &amp; DÉNIVELÉ</span><span class="dots"><i></i><i></i></span></div></a>
     </div>
   </section>
 
@@ -655,7 +655,7 @@ document.addEventListener('click', function (e) {
     'Construit avec Claude': 'Built with Claude',
     "J'utilise l'IA tous les jours pour automatiser ce qui peut l'être. Voici trois outils que j'ai faits moi-même.":
       'I use AI every day to automate whatever can be automated. Here are three tools I built myself.',
-    'Automatisation': 'Automation',
+    'Automatisation': 'Automation', 'Voir les projets en détail': 'See the projects in detail',
     'Suivi de candidatures': 'Job application tracker',
     'Un site avec un pipeline, une base de 58 entreprises caennaises et une veille quotidienne des offres.': 'A site with a pipeline, a database of 58 companies in Caen and a daily scan of job offers.',
     '58 ENTREPRISES': '58 COMPANIES',
@@ -695,6 +695,8 @@ document.addEventListener('click', function (e) {
     LANG = lang; root.lang = lang;
     if (lang !== 'en') return;
     document.title = 'Nils Louvel · B2B Business Developer, work-study';
+    // La page projets s'ouvre aussi en anglais : projets/#crm devient projets/?lang=en#crm
+    document.querySelectorAll('a[href^="projets/"]').forEach(function (a) { a.setAttribute('href', a.getAttribute('href').replace('projets/', 'projets/?lang=en')); });
     var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
     while ((n = w.nextNode())) {
       var v = n.nodeValue, k = v.trim().replace(/\s+/g, ' ');
