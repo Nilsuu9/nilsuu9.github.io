@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is; connect-src 'self' https://*.umami.is https://*.umami.dev; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nils Louvel · Business Developer en alternance</title>
 <meta name="description" content="Nils Louvel cherche une alternance de 12 à 24 mois à Caen comme Business Developer SaaS BtoB. Vente terrain, emailing, salons, et des outils construits avec Claude.">
@@ -12,9 +14,7 @@
 <link rel="icon" href="logo-badge.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Mise en page : fond flou fixe (taches de couleur + courbes de niveau), barre du haut en verre,
    rail d'icônes à gauche (ordinateur), un grand panneau en verre qui contient toutes les sections,
@@ -460,10 +460,10 @@ section + section { margin-top: 56px; }
   <section id="contact">
     <div class="sec-head reveal"><h2>On en parle ?</h2><p>Je suis disponible dès maintenant. Le plus rapide, c'est le téléphone ou un message LinkedIn.</p></div>
     <div class="contact">
-      <div class="card cbox lift reveal"><span class="label">E-mail</span><span class="val" id="mail">nilsluvl@gmail.com</span>
-        <div class="row-btns"><a class="btn dark" href="mailto:nilsluvl@gmail.com" data-track="contact_clicked" data-where="email"><svg class="i"><use href="#i-mail"/></svg>Écrire</a><button class="btn" type="button" data-copy="mail">Copier</button></div></div>
-      <div class="card cbox lift reveal" style="--d:.06s"><span class="label">Téléphone</span><span class="val" id="tel">07 67 06 93 46</span>
-        <div class="row-btns"><a class="btn dark" href="tel:+33767069346" data-track="contact_clicked" data-where="telephone"><svg class="i"><use href="#i-phone"/></svg>Appeler</a><button class="btn" type="button" data-copy="tel">Copier</button></div></div>
+      <div class="card cbox lift reveal"><span class="label">E-mail</span><span class="val" id="mail" data-contact="mail-txt"></span>
+        <div class="row-btns"><a class="btn dark" href="#contact" data-contact="mail-href" data-track="contact_clicked" data-where="email"><svg class="i"><use href="#i-mail"/></svg>Écrire</a><button class="btn" type="button" data-copy="mail">Copier</button></div></div>
+      <div class="card cbox lift reveal" style="--d:.06s"><span class="label">Téléphone</span><span class="val" id="tel" data-contact="tel-txt"></span>
+        <div class="row-btns"><a class="btn dark" href="#contact" data-contact="tel-href" data-track="contact_clicked" data-where="telephone"><svg class="i"><use href="#i-phone"/></svg>Appeler</a><button class="btn" type="button" data-copy="tel">Copier</button></div></div>
       <div class="card cbox lift reveal" style="--d:.12s"><span class="label">LinkedIn</span><span class="val">nils-louvel</span>
         <div class="row-btns"><a class="btn dark" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="contact"><svg class="i"><use href="#i-in"/></svg>Voir le profil<svg class="i"><use href="#i-arrow"/></svg></a></div></div>
     </div>
@@ -485,10 +485,10 @@ section + section { margin-top: 56px; }
     <button class="close" type="button" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button>
     <h2 id="modal-title">On en parle ?</h2>
     <p class="label">Choisissez le moyen qui vous arrange.</p>
-    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-phone"/></svg></span><div class="txt"><span>Téléphone</span><b>07 67 06 93 46</b></div>
-      <div class="acts"><a class="btn dark" href="tel:+33767069346" data-track="contact_clicked" data-where="modal_telephone">Appeler</a><button class="btn" type="button" data-copy="tel">Copier</button></div></div>
-    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-mail"/></svg></span><div class="txt"><span>E-mail</span><b>nilsluvl@gmail.com</b></div>
-      <div class="acts"><a class="btn dark" href="mailto:nilsluvl@gmail.com" data-track="contact_clicked" data-where="modal_email">Écrire</a><button class="btn" type="button" data-copy="mail">Copier</button></div></div>
+    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-phone"/></svg></span><div class="txt"><span>Téléphone</span><b data-contact="tel-txt"></b></div>
+      <div class="acts"><a class="btn dark" href="#contact" data-contact="tel-href" data-track="contact_clicked" data-where="modal_telephone">Appeler</a><button class="btn" type="button" data-copy="tel">Copier</button></div></div>
+    <div class="mrow"><span class="ico"><svg class="i"><use href="#i-mail"/></svg></span><div class="txt"><span>E-mail</span><b data-contact="mail-txt"></b></div>
+      <div class="acts"><a class="btn dark" href="#contact" data-contact="mail-href" data-track="contact_clicked" data-where="modal_email">Écrire</a><button class="btn" type="button" data-copy="mail">Copier</button></div></div>
     <div class="mrow"><span class="ico"><svg class="i"><use href="#i-in"/></svg></span><div class="txt"><span>LinkedIn</span><b>nils-louvel</b></div>
       <div class="acts"><a class="btn dark" href="https://www.linkedin.com/in/nils-louvel" target="_blank" rel="noopener" data-track="linkedin_opened" data-where="modal">Voir le profil</a></div></div>
   </div>
@@ -498,6 +498,21 @@ section + section { margin-top: 56px; }
 /* Statistiques (Umami, sans cookie). Coller ici l'identifiant du site créé sur cloud.umami.is.
    Tant que c'est vide, rien n'est envoyé. */
 var UMAMI_ID = 'd90f757d-edb5-46a6-bb3c-e96d29ffdb75';
+
+/* Coordonnées : écrites ici en morceaux et assemblées au chargement, pour que les robots
+   qui récupèrent les e-mails et numéros dans le code des pages ne les trouvent pas. */
+(function () {
+  var mail = ['nilsluvl', 'gmail.com'].join('@');
+  var tel = window.NL_TEL = ['07', '67', '06', '93', '46'].join(' ');
+  var telIntl = '+33' + tel.replace(/\s/g, '').slice(1);
+  document.querySelectorAll('[data-contact]').forEach(function (el) {
+    var k = el.dataset.contact;
+    if (k === 'mail-txt') el.textContent = mail;
+    else if (k === 'tel-txt') el.textContent = tel;
+    else if (k === 'mail-href') el.href = 'mailto:' + mail;
+    else if (k === 'tel-href') el.href = 'tel:' + telIntl;
+  });
+})();
 
 /* Lien perso par candidature : nilsuu9.github.io/?ref=nom-entreprise
    Le nom est gardé pendant la visite et ajouté à chaque événement envoyé à Umami. */
@@ -769,7 +784,6 @@ document.addEventListener('click', function (e) {
     'Choisissez le moyen qui vous arrange.': 'Pick whichever works best for you.', 'Fermer': 'Close',
     'E-mail': 'Email', 'Écrire': 'Write', 'Copier': 'Copy', 'Copié': 'Copied', 'Sélectionné': 'Selected',
     'Téléphone': 'Phone', 'Appeler': 'Call', 'Voir le profil': 'View profile',
-    '07 67 06 93 46': '+33 7 67 06 93 46',
     "Nils Louvel, Caen. Construit avec l'aide de Claude Code.": 'Nils Louvel, Caen, France. Built with the help of Claude Code.',
     "Vidéo d'intro : données de Mars NASA (MOLA, Viking), Jaanga CC BY 4.0.": 'Intro video: Mars data from NASA (MOLA, Viking), Jaanga CC BY 4.0.'
   };
@@ -786,6 +800,7 @@ document.addEventListener('click', function (e) {
     if (OFFRE.resume && OFFRE.resume_en) EN[OFFRE.resume] = OFFRE.resume_en;
     (OFFRE.missions || []).forEach(function (m, i) { if (OFFRE.missions_en && OFFRE.missions_en[i]) EN[m] = OFFRE.missions_en[i]; });
   }
+  if (window.NL_TEL) EN[window.NL_TEL] = '+33 ' + window.NL_TEL.slice(1);
   function tr(s) { return (LANG === 'en' && EN[s]) || s; }
   function applyLang(lang) {
     LANG = lang; root.lang = lang;
