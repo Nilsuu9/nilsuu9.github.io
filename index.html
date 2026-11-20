@@ -523,6 +523,8 @@ document.addEventListener('click', function (e) {
     setTimeout(function () { var ib = document.getElementById('intro'); if (ib) ib.remove(); root.style.overflow = ''; startReveal(); }, 0);
   }
 
+  // Le navigateur ne doit pas remettre l'ancienne position au rechargement
+  try { history.scrollRestoration = 'manual'; if (location.hash) history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
   function intro() {
     var box = document.createElement('div'); box.id = 'intro';
     box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Choisir la langue / Choose your language');
@@ -545,6 +547,7 @@ document.addEventListener('click', function (e) {
     function end(lang) {
       if (done) return; done = true;
       applyLang(lang);
+      scrollTo(0, 0);  // arriver tout en haut de la page
       track('language_chosen', { lang: lang });
       box.classList.add('out'); root.style.overflow = '';
       setTimeout(function () { v.pause(); box.remove(); }, 900);
@@ -780,8 +783,10 @@ document.addEventListener('click', function (e) {
     var target = link && document.getElementById(link.getAttribute('href').slice(1));
     if (!target) return;
     e.preventDefault();
-    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-    try { history.replaceState(null, '', link.getAttribute('href')); } catch (err) {}
+    var home = target.id === 'accueil';  // Accueil : tout en haut, sans la marge des sections
+    if (home) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    try { history.replaceState(null, '', home ? location.pathname + location.search : link.getAttribute('href')); } catch (err) {}
   });
 
   /* Copier e-mail / téléphone */
